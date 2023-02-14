@@ -6,37 +6,25 @@
         <meta name="author" content="Julien Falconnet">
         <link rel="stylesheet" href="style.css"/>
     </head>
+    
     <body>
-        <header>
-            <a href='admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social"/></a>
-            <nav id="menu">
-                <a href="news.php">Actualités</a>
-                <a href="wall.php?user_id=5">Mur</a>
-                <a href="feed.php?user_id=5">Flux</a>
-                <a href="tags.php?tag_id=1">Mots-clés</a>
-            </nav>
-            <nav id="user">
-                <a href="#">▾ Profil</a>
-                <ul>
-                    <li><a href="settings.php?user_id=5">Paramètres</a></li>
-                    <li><a href="followers.php?user_id=5">Mes suiveurs</a></li>
-                    <li><a href="subscriptions.php?user_id=5">Mes abonnements</a></li>
-                </ul>
-            </nav>
-        </header>
+
+    <?php include_once('header.php'); ?>
+    <?php include('connexion.php'); ?>
+
         <div id="wrapper">
             <aside>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
                     <h3>Présentation</h3>
                     <p>Sur cette page vous trouverez les derniers messages de
-                        tous les utilisatrices du site.</p>
+                        toutes les utilisatrices du site.</p>
                 </section>
             </aside>
             <main>
                 <!-- L'article qui suit est un exemple pour la présentation et 
                   @todo: doit etre retiré -->
-                <article>
+                <!-- <article>
                     <h3>
                         <time datetime='2020-02-01 11:12:13' >31 février 2010 à 11h12</time>
                     </h3>
@@ -53,7 +41,7 @@
                         <a href="">#lorem</a>,
                         <a href="">#piscitur</a>,
                     </footer>
-                </article>               
+                </article>  -->             
 
                 <?php
                 /*
@@ -66,16 +54,16 @@
                  */
 
                 // Etape 1: Ouvrir une connexion avec la base de donnée.
-                $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+                //$mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
                 //verification
-                if ($mysqli->connect_errno)
+                /*if ($mysqli->connect_errno)
                 {
                     echo "<article>";
                     echo("Échec de la connexion : " . $mysqli->connect_error);
                     echo("<p>Indice: Vérifiez les parametres de <code>new mysqli(...</code></p>");
                     echo "</article>";
                     exit();
-                }
+                }*/
 
                 // Etape 2: Poser une question à la base de donnée et récupérer ses informations
                 // cette requete vous est donnée, elle est complexe mais correcte, 
@@ -83,8 +71,10 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.id,
+                    posts.user_id,
                     users.alias as author_name,  
-                    count(likes.id) as like_number,  
+                    count(likes.id) as like_number,
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
                     FROM posts
                     JOIN users ON  users.id=posts.user_id
@@ -95,7 +85,13 @@
                     ORDER BY posts.created DESC  
                     LIMIT 5
                     ";
+                    
+                // $laQsurTags = "SELECT ALL tag_id FROM posts_tags WHERE post_id = 9" ;
+                //$laQsurTags = "SELECT label FROM tags WHERE id = ANY (SELECT ALL tag_id FROM posts_tags WHERE post_id = 9)";
+
+
                 $lesInformations = $mysqli->query($laQuestionEnSql);
+
                 // Vérification
                 if ( ! $lesInformations)
                 {
@@ -105,13 +101,21 @@
                     exit();
                 }
 
+                //$tags = $listsTags->fetch_assoc() ;
+                //while ( $tags = $listsTags->fetch_assoc() ) {
+
+                //}
+
+                //echo "<pre>" . "henloooo". print_r($listsTags) . "</pre>";
+
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
                 while ($post = $lesInformations->fetch_assoc())
                 {
                     //la ligne ci-dessous doit etre supprimée mais regardez ce 
                     //qu'elle affiche avant pour comprendre comment sont organisées les information dans votre 
-                    echo "<pre>" . print_r($post, 1) . "</pre>";
+                    //echo "<pre>" . "henloooo". print_r($post, 1) . "</pre>";
+                    $idDUPost = $post['id'];
 
                     // @todo : Votre mission c'est de remplacer les AREMPLACER par les bonnes valeurs
                     // ci-dessous par les bonnes valeurs cachées dans la variable $post 
@@ -123,16 +127,27 @@
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                        <address>AREMPLACER</address>
+                        <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
                         <div>
-                            <p>AREMPLACER</p>
+                            <p><?php echo $post['content'] ?></p>
                         </div>
                         <footer>
-                            <small>♥ AREMPLACER </small>
-                            <a href="">AREMPLACER</a>,
+                            <small><?php echo $post['like_number'] ?></small>
+                            <?php 
+                                
+                                include('request.php');
+
+                                while($tags = $listsTags->fetch_assoc()){?>
+                                    <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                    <?php echo "#" . $tags['label'] ?>
+                                    </a>
+                                <?php 
+                                } ?>
+
                         </footer>
                     </article>
                     <?php
+
                     // avec le <?php ci-dessus on retourne en mode php 
                 }// cette accolade ferme et termine la boucle while ouverte avant.
                 ?>
