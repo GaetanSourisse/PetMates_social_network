@@ -45,7 +45,7 @@
                     <h3>Présentation</h3>
                     <p>Sur cette page vous trouverez tous les message des utilisatrices
                         auxquel est abonnée l'utilisatrice 
-                        <?php echo $user['alias'] ?>
+                        <a href="wall.php?user_id=<?php echo $userId ?>"><?php echo $user['alias'] ?></a>
                         (n° <?php echo $userId ?>)
                     </p>
 
@@ -59,6 +59,7 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.user_id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -89,7 +90,7 @@
                     <h3>
                         <time><?php echo $post['created'] ?></time>
                     </h3>
-                    <address>par <?php echo $post['author_name'] ?></address>
+                    <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
                     <div>
                         <?php echo $post['content'] ?>
                     </div>                                            

@@ -18,7 +18,7 @@
                 <section>
                     <h3>Présentation</h3>
                     <p>Sur cette page vous trouverez les derniers messages de
-                        tous les utilisatrices du site.</p>
+                        toutes les utilisatrices du site.</p>
                 </section>
             </aside>
             <main>
@@ -71,8 +71,10 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.id,
+                    posts.user_id,
                     users.alias as author_name,  
-                    count(likes.id) as like_number,  
+                    count(likes.id) as like_number,
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
                     FROM posts
                     JOIN users ON  users.id=posts.user_id
@@ -83,7 +85,13 @@
                     ORDER BY posts.created DESC  
                     LIMIT 5
                     ";
+                    
+                // $laQsurTags = "SELECT ALL tag_id FROM posts_tags WHERE post_id = 9" ;
+                //$laQsurTags = "SELECT label FROM tags WHERE id = ANY (SELECT ALL tag_id FROM posts_tags WHERE post_id = 9)";
+
+
                 $lesInformations = $mysqli->query($laQuestionEnSql);
+
                 // Vérification
                 if ( ! $lesInformations)
                 {
@@ -93,13 +101,21 @@
                     exit();
                 }
 
+                //$tags = $listsTags->fetch_assoc() ;
+                //while ( $tags = $listsTags->fetch_assoc() ) {
+
+                //}
+
+                //echo "<pre>" . "henloooo". print_r($listsTags) . "</pre>";
+
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
                 while ($post = $lesInformations->fetch_assoc())
                 {
                     //la ligne ci-dessous doit etre supprimée mais regardez ce 
                     //qu'elle affiche avant pour comprendre comment sont organisées les information dans votre 
-                    /*echo "<pre>" . print_r($post, 1) . "</pre>";*/
+                    //echo "<pre>" . "henloooo". print_r($post, 1) . "</pre>";
+                    $idDUPost = $post['id'];
 
                     // @todo : Votre mission c'est de remplacer les AREMPLACER par les bonnes valeurs
                     // ci-dessous par les bonnes valeurs cachées dans la variable $post 
@@ -111,16 +127,27 @@
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                        <address>par <?php echo $post['author_name'] ?></address>
+                        <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
                         <div>
                             <p><?php echo $post['content'] ?></p>
                         </div>
                         <footer>
                             <small><?php echo $post['like_number'] ?></small>
-                            <a href="">#<?php echo $post['taglist'] ?></a>
+                            <?php 
+                                
+                                include('request.php');
+
+                                while($tags = $listsTags->fetch_assoc()){?>
+                                    <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                    <?php echo "#" . $tags['label'] ?>
+                                    </a>
+                                <?php 
+                                } ?>
+
                         </footer>
                     </article>
                     <?php
+
                     // avec le <?php ci-dessus on retourne en mode php 
                 }// cette accolade ferme et termine la boucle while ouverte avant.
                 ?>
