@@ -13,24 +13,10 @@
     <?php include('connexion.php'); ?>
     
         <div id="wrapper">
-            <?php
-            /**
-             * Cette page est TRES similaire à wall.php. 
-             * Vous avez sensiblement à y faire la meme chose.
-             * Il y a un seul point qui change c'est la requete sql.
-             * Etape 1: Le mur concerne un utilisateur en particulier
-             */
-            $userId = intval($_GET['user_id']);
-            ?>
-            <?php
-            /**
-             * Etape 2: se connecter à la base de donnée
-             * $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-             */
-            ?>
 
             <aside>
                 <?php
+                $userId = intval($_GET['user_id']);
                 /**
                  * Etape 3: récupérer le nom de l'utilisateur
                  */
@@ -59,6 +45,7 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.id,
                     posts.user_id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
@@ -96,7 +83,25 @@
                     </div>                                            
                     <footer>
                         <small>♥ <?php echo $post['like_number'] ?></small>
-                        <a href="">#<?php echo $post['taglist'] ?></a>
+                        <?php 
+
+                        $idDUPost = $post['id'];
+
+                        //Récupération des label des tags et tag_id sur les posts
+                        $laQsurlesLabels = "
+                        SELECT tags.label, posts_tags.tag_id 
+                        FROM tags 
+                        INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
+                        WHERE post_id = $idDUPost" ; 
+
+                        $listsTags = $mysqli->query($laQsurlesLabels);
+
+                        while($tags = $listsTags->fetch_assoc()){?>
+                            <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                            <?php echo "#" . $tags['label'] ?>
+                            </a>
+                        <?php 
+                        } ?>
                     </footer>
                 </article>
                 <?php

@@ -14,33 +14,21 @@
 
         <div id="wrapper">
             <?php
-            /**
-             * Cette page est similaire à wall.php ou feed.php 
-             * mais elle porte sur les mots-clés (tags)
-             */
-            /**
-             * Etape 1: Le mur concerne un mot-clé en particulier
-             */
+
             $tagId = intval($_GET['tag_id']);
-            ?>
-            <?php
-            /**
-             * Etape 2: se connecter à la base de donnée
-             * $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-             */
             ?>
 
             <aside>
                 <?php
-                /**
-                 * Etape 3: récupérer le nom du mot-clé
-                 */
+
                 $laQuestionEnSql = "SELECT * FROM tags WHERE id= '$tagId' ";
+
                 $lesInformations = $mysqli->query($laQuestionEnSql);
+
                 $tag = $lesInformations->fetch_assoc();
-                //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par le label et effacer la ligne ci-dessous
-                //echo "<pre>" . print_r($tag, 1) . "</pre>";
+
                 ?>
+
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
                     <h3>Présentation</h3>
@@ -48,18 +36,16 @@
                         le mot-clé #<?php echo $tag['label'] ?>
                         (n° <?php echo $tag['id'] ?>)
                     </p>
-
                 </section>
             </aside>
             <main>
                 <?php
-                /**
-                 * Etape 3: récupérer tous les messages avec un mot clé donné
-                 */
+
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
                     posts.user_id,
+                    posts.id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -73,18 +59,16 @@
                     GROUP BY posts.id
                     ORDER BY posts.created DESC  
                     ";
+
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 if ( ! $lesInformations)
                 {
                     echo("Échec de la requete : " . $mysqli->error);
                 }
 
-                /**
-                 * Etape 4: @todo Parcourir les messsages et remplir correctement le HTML avec les bonnes valeurs php
-                 */
+                /* Parcourir les messsages et remplir correctement le HTML avec les bonnes valeurs php */
                 while ($post = $lesInformations->fetch_assoc())
                 {
-
                     //echo "<pre>" . print_r($post, 1) . "</pre>";
                     ?>                
                     <article>
@@ -97,7 +81,28 @@
                         </div>                                            
                         <footer>
                             <small>♥ <?php echo $post['like_number'] ?></small>
-                            <a href="">#<?php echo $post['taglist'] ?></a>
+
+                            <?php 
+
+                                $idDUPost = $post['id'];
+                                
+                                //Récupération des label des tags et tag_id sur les posts
+                                $laQsurlesLabels = "
+                                SELECT tags.label, posts_tags.tag_id 
+                                FROM tags 
+                                INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
+                                WHERE post_id = $idDUPost" ; 
+
+                                $listsTags = $mysqli->query($laQsurlesLabels);
+
+                                while($tags = $listsTags->fetch_assoc()){?>
+                                    <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                    <?php echo "#" . $tags['label'] ?>
+                                    </a>
+                                <?php 
+                                } ?>
+
+
                         </footer>
                     </article>
                 <?php } ?>
