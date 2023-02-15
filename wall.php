@@ -98,7 +98,7 @@ session_start();
                     }
                 }
                 ?>
-                <form action="wall.php" method="post">
+                <form action="" method="post">
                     <dl>
                         <dt><label for='auteur'>Auteur</label></dt>
                         <dd><select name='auteur'>
