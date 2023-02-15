@@ -33,12 +33,25 @@ session_start();
             ?>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
+                <?php
+
+                $enCoursDabonnement = isset($_POST['abonnement']);
+                if ($enCoursDabonnement) {
+                   var_dump($_POST['abonnement']);
+                }
+                
+                ?>
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
                     <?php echo $user['alias'] ?>
                     (n°
                     <?php echo $userId ?>)
                 </p>
+                <form action="" method="post">
+                   
+                    <input type='submit' name='abonnement' value="s'abonner">
+                </form>
+
             </section>
         </aside>
         <main>
