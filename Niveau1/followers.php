@@ -6,9 +6,11 @@
         <meta name="author" content="Julien Falconnet">
         <link rel="stylesheet" href="style.css"/>
     </head>
+    
     <body>
-       
-        <?php include_once ('header.php') ?>
+
+    <?php include_once('header.php'); ?>
+    <?php include('connexion.php'); ?>
 
         <div id="wrapper">          
             <aside>
@@ -26,7 +28,7 @@
                 // Etape 1: récupérer l'id de l'utilisateur
                 $userId = intval($_GET['user_id']);
                 // Etape 2: se connecter à la base de donnée
-                $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+                //$mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
                 // Etape 3: récupérer le nom de l'utilisateur
                 $laQuestionEnSql = "
                     SELECT users.*
@@ -38,13 +40,13 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 // Etape 4: à vous de jouer
                 //@todo: faire la boucle while de parcours des abonnés et mettre les bonnes valeurs ci dessous 
-                while ($user = $lesInformations->fetch_assoc())
+                while ($post = $lesInformations->fetch_assoc())
                 {
                 ?>
                 <article>
                     <img src="user.jpg" alt="blason"/>
-                    <h3><?php echo $user['alias'] ?></h3>
-                    <p><?php echo $user['email'] ?></p>
+                    <h3><a href="wall.php?user_id=<?php echo $post['id'] ?>"><?php echo $post['alias'] ?></a></h3>
+                    <p><?php echo $post['id'] ?></p>
                 </article>
                 <?php } ?>
             </main>
