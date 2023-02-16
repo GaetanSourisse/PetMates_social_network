@@ -21,10 +21,24 @@ session_start();
         $userId = intval($_GET['user_id']);
         ?>
         <aside>
+
             <?php
             /**
              * Etape 3: récupérer le nom de l'utilisateur
              */
+            $questionSqlIsFollowed = "SELECT `followed_user_id` FROM `followers` WHERE `following_user_id`=" . $_SESSION['connected_id'].";";
+            $infoFollowed= $mysqli->query($questionSqlIsFollowed);
+
+            while ($follows = $infoFollowed->fetch_assoc()) {
+                if ($follows['followed_user_id'] == $userId) {
+                    $valueButton = "désabonnement";
+                } else {
+                    $valueButton = "s'abonner";
+                }
+            };
+            
+            
+
             $laQuestionEnSql = "SELECT * FROM users WHERE id= '$userId' ";
             $lesInformations = $mysqli->query($laQuestionEnSql);
             $user = $lesInformations->fetch_assoc();
@@ -35,11 +49,32 @@ session_start();
             <section>
                 <?php
 
-                $enCoursDabonnement = isset($_POST['abonnement']);
-                if ($enCoursDabonnement) {
-                   var_dump($_POST['abonnement']);
+            //$newFollower = $infoNewFollower->fetch_assoc();
+            $enCoursDabonnement = isset($_POST['abonnement']);
+            $questionSqlNewFollower = "INSERT INTO followers (id, followed_user_id, following_user_id) VALUES (NULL, '".$userId."', '".$_SESSION['connected_id']."');"; 
+
+            if ($enCoursDabonnement) {
+                if ($userId == $_SESSION['connected_id']) {
+                    echo "impossible de s'abonner" . $mysqli->error;
+                    
+                } else {
+                    $infoNewFollower = $mysqli->query($questionSqlNewFollower);
+                    if (!$infoNewFollower) {
+                        echo "impossible de s'abonner" . $mysqli->error;
+                    } else {
+                        echo "vous êtes bien abonné.e à " . $user['alias'];
+                        $valueButton = "désabonnement";
+                    }
                 }
-                
+            };   
+            
+            /*$deleteFollower = "DELETE FROM `followers` WHERE `followed_user_id` = " . $userId . "AND `following_user_id` =" . $_SESSION['connected_id'] . ";";
+            
+            if ($valueButton == "désabonnement" && $enCoursDabonnement) {
+                $actionDeleteFollower = $mysqli->query($deleteFollower);
+                echo "Vous vous êtes désabonné.e de " . $user['alias'];
+                $valueButton = "s'abonner";
+            };*/
                 ?>
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
@@ -47,9 +82,10 @@ session_start();
                     (n°
                     <?php echo $userId ?>)
                 </p>
+                
                 <form action="" method="post">
                    
-                    <input type='submit' name='abonnement' value="s'abonner">
+                    <input type='submit' name='abonnement' value=<?php echo $valueButton ?>>
                 </form>
 
             </section>
