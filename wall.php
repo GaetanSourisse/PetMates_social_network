@@ -18,63 +18,65 @@ session_start();
 
     <div id="wrapper">
         <?php
+        //on récupère le user_id depuis l'url du mur où on se trouve
         $userId = intval($_GET['user_id']);
         ?>
         <aside>
 
             <?php
-            /**
-             * Etape 3: récupérer le nom de l'utilisateur
-             */
-            $questionSqlIsFollowed = "SELECT `followed_user_id` FROM `followers` WHERE `following_user_id`=" . $_SESSION['connected_id'].";";
-            $infoFollowed= $mysqli->query($questionSqlIsFollowed);
+            //on vérifie si on est sur le mur du user loggé ou non, s'il est sur son mur le bouton s'abonner est off
+            if ($userId == intval($_SESSION['connected_id'])) {
+                $status = "disabled";
+            } else {
+                $status = "";
+            }
+            ;
+            // vérifier si le user loggé est déja abonné au wall visité, requête pour chercher si l'abonnement existe
+            $questionSqlIsFollowed = "SELECT * FROM followers WHERE followed_user_id='$userId' AND following_user_id='" . $_SESSION['connected_id'] . "';";
+            $infoFollowed = $mysqli->query($questionSqlIsFollowed);
 
-            while ($follows = $infoFollowed->fetch_assoc()) {
-                if ($follows['followed_user_id'] == $userId) {
+            // si la requête échoue, message échec
+            if (!$infoFollowed) {
+                echo "échec" . $mysqli->error;
+            } else {
+                // si la requête réussit, si l'abonnement est déjà présent alors bouton = désabonnement sinon bouton= s'abonner
+                if ($infoFollowed->fetch_assoc()) {
                     $valueButton = "désabonnement";
                 } else {
                     $valueButton = "s'abonner";
                 }
-            };
-            
-            
+            }
+            ;
 
+
+            // on récupère les infos du user
             $laQuestionEnSql = "SELECT * FROM users WHERE id= '$userId' ";
             $lesInformations = $mysqli->query($laQuestionEnSql);
             $user = $lesInformations->fetch_assoc();
-            //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
-            //echo "<pre>" . print_r($user, 1) . "</pre>";
-            ?>
+
+            // ?>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
                 <?php
 
-            //$newFollower = $infoNewFollower->fetch_assoc();
-            $enCoursDabonnement = isset($_POST['abonnement']);
-            $questionSqlNewFollower = "INSERT INTO followers (id, followed_user_id, following_user_id) VALUES (NULL, '".$userId."', '".$_SESSION['connected_id']."');"; 
+                // on stocke le click du bouton
+                $enCoursDabonnement = isset($_POST['abonnement']);
+                //on prépare les requêtes pour ajouter ou supprimer un abonnement
+                $questionSqlNewFollower = "INSERT INTO followers (id, followed_user_id, following_user_id) VALUES (NULL, '" . $userId . "', '" . $_SESSION['connected_id'] . "');";
+                $deleteFollower = "DELETE FROM followers WHERE followed_user_id ='$userId' AND following_user_id ='" . $_SESSION['connected_id'] . "';";
 
-            if ($enCoursDabonnement) {
-                if ($userId == $_SESSION['connected_id']) {
-                    echo "impossible de s'abonner" . $mysqli->error;
-                    
-                } else {
-                    $infoNewFollower = $mysqli->query($questionSqlNewFollower);
-                    if (!$infoNewFollower) {
-                        echo "impossible de s'abonner" . $mysqli->error;
-                    } else {
-                        echo "vous êtes bien abonné.e à " . $user['alias'];
-                        $valueButton = "désabonnement";
-                    }
+                //si le bouton "abonné" est cliqué, ajoute l'abonnement à la BD
+                if ($enCoursDabonnement && $valueButton == "s'abonner") {
+                    $mysqli->query($questionSqlNewFollower);
+                    echo "Vous êtes abonné à " . $user['alias'];
+                    $valueButton = "désabonnement";
+                    // si le bouton "désabonnement" est cliqué, supprime l'abonnement
+                } elseif ($enCoursDabonnement && $valueButton == "désabonnement") {
+                    $mysqli->query($deleteFollower);
+                    echo "Vous êtes désabonné de " . $user['alias'];
+                    $valueButton = "s'abonner";
                 }
-            };   
-            
-            /*$deleteFollower = "DELETE FROM `followers` WHERE `followed_user_id` = " . $userId . "AND `following_user_id` =" . $_SESSION['connected_id'] . ";";
-            
-            if ($valueButton == "désabonnement" && $enCoursDabonnement) {
-                $actionDeleteFollower = $mysqli->query($deleteFollower);
-                echo "Vous vous êtes désabonné.e de " . $user['alias'];
-                $valueButton = "s'abonner";
-            };*/
+                ;
                 ?>
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
@@ -82,90 +84,61 @@ session_start();
                     (n°
                     <?php echo $userId ?>)
                 </p>
-                
+
                 <form action="" method="post">
-                   
-                    <input type='submit' name='abonnement' value=<?php echo $valueButton ?>>
+
+                    <input type='submit' name='abonnement' value=<?php echo $valueButton ?> <?php echo $status ?>>
                 </form>
 
             </section>
         </aside>
         <main>
-            <article>
-                <h2>Poster un message</h2>
-                <?php
-                /**
-                 * BD
-                 */
-                $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-                /**
-                 * Récupération de la liste des auteurs
-                 */
-                $listAuteurs = [];
-                $laQuestionEnSql = "SELECT * FROM users";
-                $lesInformations = $mysqli->query($laQuestionEnSql);
-                while ($user = $lesInformations->fetch_assoc()) {
-                    $listAuteurs[$user['id']] = $user['alias'];
-                }
 
 
-                /**
-                 * TRAITEMENT DU FORMULAIRE
-                 */
-                // Etape 1 : vérifier si on est en train d'afficher ou de traiter le formulaire
-                // si on recoit un champs email rempli il y a une chance que ce soit un traitement
-                $enCoursDeTraitement = isset($_POST['auteur']);
+            <?php
+            // on ajoute le formulaire "message" pour poster des messages sur son propre mur
+            if ($userId == intval($_SESSION['connected_id'])) {
+                $enCoursDeTraitement = isset($_POST['message']);
                 if ($enCoursDeTraitement) {
-                    // on ne fait ce qui suit que si un formulaire a été soumis.
-                    // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
-                    // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
-                    //echo "<pre>" . print_r($_POST, 1) . "</pre>";
-                    // et complétez le code ci dessous en remplaçant les ???
-                    $authorId = $_POST['auteur'];
+
                     $postContent = $_POST['message'];
 
-
-                    //Etape 3 : Petite sécurité
                     // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
-                    $authorId = intval($mysqli->real_escape_string($authorId));
                     $postContent = $mysqli->real_escape_string($postContent);
-                    //Etape 4 : construction de la requete
+                    // construction de la requete
                     $lInstructionSql = "INSERT INTO posts (id, user_id, content, created, parent_id) "
                         . "VALUES (NULL, "
-                        . "'" . $authorId . "', "
+                        . "'" . $_SESSION['connected_id'] . "', "
                         . "'" . $postContent . "', "
                         . "NOW(), "
                         . "NULL);"
                     ;
-                    //echo $lInstructionSql;
-                    // Etape 5 : execution
+
+
                     $ok = $mysqli->query($lInstructionSql);
                     if (!$ok) {
                         echo "Impossible d'ajouter le message: " . $mysqli->error;
                     } else {
-                        echo "Message posté en tant que : " . $listAuteurs[$authorId];
+                        echo "Votre message a bien été posté.";
                     }
                 }
                 ?>
-                <form action="" method="post">
-                    <dl>
-                        <dt><label for='auteur'>Auteur</label></dt>
-                        <dd><select name='auteur'>
-                                <?php
-                                foreach ($listAuteurs as $id => $alias)
-                                    echo "<option value='$id'>$alias</option>";
-                                ?>
-                            </select></dd>
-                        <dt><label for='message'>Message</label></dt>
-                        <dd><textarea name='message'></textarea></dd>
-                    </dl>
-                    <input type='submit'>
-                </form>
-            </article>
+                <article>
+
+                    <h2>Poster un message</h2>
+                    <form action="" method="post">
+                        <dl>
+                            <dt><label for='message'>Message</label></dt>
+                            <dd><textarea name='message'></textarea></dd>
+                        </dl>
+                        <input type='submit'>
+                    </form>
+                </article>
+            <?php } ?>
+
             <?php
-            /**
-             * Etape 3: récupérer tous les messages de l'utilisatrice
-             */
+            //récupérer tous les posts du user visité
+            
             $laQuestionEnSql = "
                     SELECT posts.content, posts.created, users.alias as author_name, 
                     COUNT(likes.id) as like_number, GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -183,12 +156,7 @@ session_start();
                 echo ("Échec de la requete : " . $mysqli->error);
             }
 
-            /**
-             * Etape 4: @todo Parcourir les messsages et remplir correctement le HTML avec les bonnes valeurs php
-             */
             while ($post = $lesInformations->fetch_assoc()) {
-
-                //echo "<pre>" . print_r($post, 1) . "</pre>";
                 ?>
                 <article>
                     <h3>
