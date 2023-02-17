@@ -12,8 +12,8 @@ session_start();
 </head>
 
 <body>
-<?php include_once('header.php'); ?>
-<?php include('connexion.php'); ?>
+    <?php include_once('header.php'); ?>
+    <?php include('connexion.php'); ?>
 
     <div id="wrapper">
 
@@ -58,29 +58,50 @@ session_start();
                     $user = $res->fetch_assoc();
                     if (!$user or $user["password"] != $passwdAVerifier) {
                         echo "La connexion a échouée. ";
-
+                        ?>
+                        <form action="login.php" method="post">
+                            <input type='hidden' name='???' value='achanger'>
+                            <dl>
+                                <dt><label for='email'>E-Mail</label></dt>
+                                <dd><input type='email' name='email'></dd>
+                                <dt><label for='motpasse'>Mot de passe</label></dt>
+                                <dd><input type='password' name='motpasse'></dd>
+                            </dl>
+                            <input type='submit'>
+                        </form>
+                        <p>
+                            Pas de compte?
+                            <a href='registration.php'>Inscrivez-vous.</a>
+                        </p>
+                    <?php
                     } else {
                         echo "Votre connexion est un succès : " . $user['alias'] . ".";
+
                         // Etape 7 : Se souvenir que l'utilisateur s'est connecté pour la suite
                         // documentation: https://www.php.net/manual/fr/session.examples.basic.php
                         $_SESSION['connected_id'] = $user['id'];
                     }
+                } else {
+                    ?>
+                    <form action="login.php" method="post">
+                        <input type='hidden' name='???' value='achanger'>
+                        <dl>
+                            <dt><label for='email'>E-Mail</label></dt>
+                            <dd><input type='email' name='email'></dd>
+                            <dt><label for='motpasse'>Mot de passe</label></dt>
+                            <dd><input type='password' name='motpasse'></dd>
+                        </dl>
+                        <input type='submit'>
+                    </form>
+                    <p>
+                        Pas de compte?
+                        <a href='registration.php'>Inscrivez-vous.</a>
+                    </p>
+                <?php
                 }
                 ?>
-                <form action="login.php" method="post">
-                    <input type='hidden' name='???' value='achanger'>
-                    <dl>
-                        <dt><label for='email'>E-Mail</label></dt>
-                        <dd><input type='email' name='email'></dd>
-                        <dt><label for='motpasse'>Mot de passe</label></dt>
-                        <dd><input type='password' name='motpasse'></dd>
-                    </dl>
-                    <input type='submit'>
-                </form>
-                <p>
-                    Pas de compte?
-                    <a href='registration.php'>Inscrivez-vous.</a>
-                </p>
+
+
 
             </article>
         </main>

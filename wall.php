@@ -24,13 +24,7 @@ session_start();
         <aside>
 
             <?php
-            //on vérifie si on est sur le mur du user loggé ou non, s'il est sur son mur le bouton s'abonner est off
-            if ($userId == intval($_SESSION['connected_id'])) {
-                $status = "disabled";
-            } else {
-                $status = "";
-            }
-            ;
+
             // vérifier si le user loggé est déja abonné au wall visité, requête pour chercher si l'abonnement existe
             $questionSqlIsFollowed = "SELECT * FROM followers WHERE followed_user_id='$userId' AND following_user_id='" . $_SESSION['connected_id'] . "';";
             $infoFollowed = $mysqli->query($questionSqlIsFollowed);
@@ -84,12 +78,15 @@ session_start();
                     (n°
                     <?php echo $userId ?>)
                 </p>
-
-                <form action="" method="post">
-
-                    <input type='submit' name='abonnement' value=<?php echo $valueButton ?> <?php echo $status ?>>
-                </form>
-
+                <?php
+                if ($userId !== intval($_SESSION['connected_id'])) {
+                    ?>
+                    <form action="" method="post">
+                        <input type='submit' name='abonnement' value=<?php echo $valueButton ?>>
+                    </form>
+                <?php
+                }
+                ?>
             </section>
         </aside>
         <main>

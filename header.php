@@ -1,4 +1,5 @@
 <header>
+    <?php echo $_SESSION['connected_id']; ?>
     <img src="resoc.jpg" alt="Logo de notre réseau social" />
     <nav id="menu">
         <a href="news.php">Actualités</a>
