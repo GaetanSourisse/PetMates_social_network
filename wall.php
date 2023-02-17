@@ -62,7 +62,7 @@ session_start();
                 // on stocke le click du bouton
                 $enCoursDabonnement = isset($_POST['abonnement']);
                 //on prépare les requêtes pour ajouter ou supprimer un abonnement
-                $questionSqlNewFollower = "INSERT INTO followers (id, followed_user_id, following_user_id) VALUES (NULL, '" . $userId . "', '" . $_SESSION['connected_id'] . "');";
+                $questionSqlNewFollower = "INSERT INTO followers (id, followed_user_id, following_user_id) VALUES (NULL, '$userId', '" . $_SESSION['connected_id'] . "');";
                 $deleteFollower = "DELETE FROM followers WHERE followed_user_id ='$userId' AND following_user_id ='" . $_SESSION['connected_id'] . "';";
 
                 //si le bouton "abonné" est cliqué, ajoute l'abonnement à la BD
