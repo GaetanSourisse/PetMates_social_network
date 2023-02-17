@@ -105,16 +105,20 @@ session_start();
                     </div>
 
                     <footer>
-                        <form action="" method="post">
-                            <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
-                                <small>
-                                    ♥
-                                    <?php echo $post['like_number'] ?>
-                                </small>
-                            </button>
-                        </form>
+                        <?php
+                        if ($post['user_id'] !== $_SESSION['connected_id']) {
+                            ?>
+                            <form action="" method="post">
+                                <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
+                                    <small>
+                                        ♥
+                                        <?php echo $post['like_number'] ?>
+                                    </small>
+                                </button>
+                            </form>
 
                         <?php
+                        }
 
                         //Récupération des label des tags et tag_id sur les posts
                         $laQsurlesLabels = "
