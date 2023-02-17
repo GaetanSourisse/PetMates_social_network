@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('forbidenpage.php');
 ?>
 <!doctype html>
 <html lang="fr">

@@ -60,10 +60,11 @@ session_start();
 
             //pour chaque post dispos dans la base de données...
             while ($post = $lesInformations->fetch_assoc()) {
-                $idDuPost = $post['id'];
 
+                $idDuPost = $post['id'];
                 //si le bouton like est cliqué
-                if (isset($_POST['like'])) {
+                if (isset($_POST['like']) && $_POST['like'] == $idDuPost) {
+
                     // requête pour chercher si le like existe
                     $questionSqlIsLiked = "SELECT * FROM likes WHERE post_id='$idDuPost' AND user_id='" . $_SESSION['connected_id'] . "';";
                     $infoLiked = $mysqli->query($questionSqlIsLiked);
@@ -105,7 +106,7 @@ session_start();
 
                     <footer>
                         <form action="" method="post">
-                            <button type='submit' name='like'>
+                            <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
                                 <small>
                                     ♥
                                     <?php echo $post['like_number'] ?>
