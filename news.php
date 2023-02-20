@@ -16,6 +16,32 @@ session_start();
     <?php include_once('header.php'); ?>
     <?php include('connexion.php'); ?>
 
+    <!-- Cas où la personne n'est pas loggée -->
+    <!-- On lui propose de se logger ou de créer son compte -->
+    <?php 
+        if (empty($_SESSION['connected_id'])){
+            ?>
+            <div id="wrapper">
+                <article>
+                <p>
+                    <?php echo "Veuillez vous ";?>
+                    <a href="login.php">connecter</a>
+                    <?php echo "ou ";?>
+                    <a href="registration.php">créer votre compte</a>    
+                </p>
+                </article>
+            </div>
+            <?php
+        } else {
+            echo "Vous êtes loggé";
+        }
+    
+    ?>
+
+    <div id="gestion_connexion">
+        <p></p>
+    </div>
+
     <div id="wrapper">
 
         <aside>
@@ -105,7 +131,8 @@ session_start();
 
                     <footer>
                         <?php
-                        if ($post['user_id'] !== $_SESSION['connected_id']) {
+                        if(!empty($_SESSION['connected_id'])){
+                            if ($post['user_id'] !== $_SESSION['connected_id']) {
                             ?>
                             <form action="" method="post">
                                 <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
@@ -114,8 +141,10 @@ session_start();
                                         <?php echo $post['like_number'] ?>
                                     </small>
                                 </button>
-                            </form>
-
+                            </form>  
+                            <?php 
+                            }
+                            ?>
                         <?php
                         }
 
