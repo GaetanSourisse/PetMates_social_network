@@ -3,7 +3,7 @@
     <nav id="menu">
         <a href="news.php">Actualités</a>
         <a href="feed.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Flux</a>
-        <a href="tags.php?tag_id=1">Mots-clés</a>
+        <a href="tags.php">Mots-clés</a>
     </nav>
     <nav id="user">
         <a href="#">Profil</a>
