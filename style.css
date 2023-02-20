@@ -19,7 +19,7 @@ body>header img{
 }
 body>header #menu {
     display:flex;
-    width:50%;
+    width:30%;
     align-items: stretch;
     border-left: 1px solid #99b;
 }
@@ -29,10 +29,7 @@ body>header #menu a{
     padding-top:2em;
     border-right: 1px solid #99b;
 }
-body>header a:hover
-{
-    background-color: #99b;
-}
+
 body>header ul{list-style: none;}
 body>header #user
 {
@@ -158,3 +155,38 @@ pre{
 form dl dt{float:left;font-weight: bold;line-height: 1.5em;}
 form dl dd{margin-left:10em;line-height: 1.5em;margin-bottom: 1em}
 form dl dd textarea{width:40em;height: 15em;}
+
+/* POUR LE MENU DEROULANT DES TAGS */
+
+body>header #tags {
+    display:flex;
+    align-items: stretch;
+    width:20%;
+    flex-direction: column;
+}
+
+body>header #tags a {
+    text-align: center;
+    border-right: none;
+    margin-top: 2em;
+}
+
+body>header #tags ul{
+    display: none;
+    position:absolute;
+    width:15%;
+    margin-top: 4em;
+    background-color: #fff;
+    text-align: center;
+    height: 150px;
+    overflow-y: scroll;
+}
+
+body>header #tags:hover ul{
+    display:block;
+}
+
+body>header #tags .deroulant:hover {
+    text-decoration: underline;
+    background-color: #99b;
+}
