@@ -22,7 +22,7 @@ include('forbidenpage.php');
         <aside>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
-                <h3>Présentation</h3>
+                <h3>À Supprimer ???</h3>
                 <p>Sur cette page vous trouverez les informations de l'utilisatrice
                     n°
                     <?php echo intval($_GET['user_id']) ?>
@@ -56,7 +56,7 @@ include('forbidenpage.php');
 
             ?>
             <article class='parameters'>
-                <h3>Mes paramètres</h3>
+                <h1>Settings</h1>
                 <dl>
                     <dt>Pseudo</dt>
                     <dd>

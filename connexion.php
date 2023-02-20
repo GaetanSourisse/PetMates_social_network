@@ -1,5 +1,4 @@
 <?php
-echo $_SESSION['connected_id'];
 $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
 
 //verification
