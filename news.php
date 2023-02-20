@@ -147,9 +147,29 @@ session_start();
                             ?>
                         <?php
                         } ?>
+                    
                         
-                        <input class="commentaire"></input>
+                    <form action="" method="post">
+                        <button type="submit" name="comment" value="<?php echo $idDuPost ?>">Commentaires</button>
+                    </form>
 
+                    <?php
+                     
+                    $requeteComment = "SELECT * FROM comments WHERE id_post = '$idDuPost';";
+                    $infoComment = $mysqli->query($requeteComment);
+
+                    if (isset($_POST['comment']) && $_POST['comment'] == $idDuPost) {
+                        
+                        while ($comment = $infoComment->fetch_assoc()) {
+                          ?>
+                          <div>
+                            <adress>Par l'utilisatrice n°<a href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php echo $comment['user_id'] ?></a></adress>
+                            <p><?php echo $comment['content'] ?></p>
+                          </div>
+                        <?php }
+
+                    }
+                    ?>
                         <?php
                         //Récupération des label des tags et tag_id sur les posts
                         $laQsurlesLabels = "
