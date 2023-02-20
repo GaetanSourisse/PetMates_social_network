@@ -78,6 +78,18 @@ session_start();
                     (n°
                     <?php echo $userId ?>)
                 </p>
+                <?php 
+                //si on est sur son propre mur, on ajoute la possibilité d'afficher les abonnements et abonnés
+                if ($userId == intval($_SESSION['connected_id'])) {
+                    ?>
+                    <div class="info-followers">
+                        <li><a href="followers.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mes suiveurs</a></li>
+                        <li><a href="subscriptions.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mes abonnements</a></li>
+                    </div>
+                <?php 
+                }
+                ?>
+                
                 <?php
                 if ($userId !== intval($_SESSION['connected_id'])) {
                     ?>
@@ -91,8 +103,9 @@ session_start();
         </aside>
         <main>
 
-
             <?php
+            //on déclare la variable explanation pour s'en servir après si jamais il y en a besoin
+            $explanation = "";
             // on ajoute le formulaire "message" pour poster des messages sur son propre mur
             if ($userId == intval($_SESSION['connected_id'])) {
                 $enCoursDeTraitement = isset($_POST['message']);
@@ -111,31 +124,33 @@ session_start();
                         . "NULL);"
                     ;
 
-
                     $ok = $mysqli->query($lInstructionSql);
                     if (!$ok) {
-                        echo "Impossible d'ajouter le message: " . $mysqli->error;
+                        $explanation = "Impossible d'ajouter le message: " . $mysqli->error ;
                     } else {
-                        echo "Votre message a bien été posté.";
+                        $explanation = "Votre message a bien été posté.";
                     }
                 }
                 ?>
-                <article>
 
+                <article>
                     <h2>Poster un message</h2>
+                    <div name="explanation">
+                        <?php echo $explanation ?>
+                    </div>
                     <form action="" method="post">
-                        <dl>
-                            <dt><label for='message'>Message</label></dt>
-                            <dd><textarea name='message'></textarea></dd>
-                        </dl>
-                        <input type='submit'>
+                    <dl>
+                        <dt><label for='message'>Message</label></dt>
+                        <dd><textarea name='message'></textarea></dd>
+                    </dl>
+                    <input type='submit'>
                     </form>
                 </article>
+
             <?php } ?>
 
             <?php
             //récupérer tous les posts du user visité
-            
             $laQuestionEnSql = "
                     SELECT posts.content, posts.created, users.alias as author_name, 
                     COUNT(likes.id) as like_number, GROUP_CONCAT(DISTINCT tags.label) AS taglist 
