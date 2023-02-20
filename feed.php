@@ -76,6 +76,31 @@ include('forbidenpage.php');
              * A vous de retrouver comment faire la boucle while de parcours...
              */
             while ($post = $lesInformations->fetch_assoc()) {
+
+                $idDuPost = $post['id'];
+                //si le bouton like est cliqué
+                if (isset($_POST['like']) && $_POST['like'] == $idDuPost) {
+
+                    // requête pour chercher si le like existe
+                    $questionSqlIsLiked = "SELECT * FROM likes WHERE post_id='$idDuPost' AND user_id='" . $_SESSION['connected_id'] . "';";
+                    $infoLiked = $mysqli->query($questionSqlIsLiked);
+                    // si la requête échoue, message échec
+                    if (!$infoLiked) {
+                        echo "échec" . $mysqli->error;
+                    } else {
+                        // si la requête réussit, si le like est déjà présent alors le count like désincrémente, sinon il s'incrémente 
+                        if ($infoLiked->fetch_assoc()) {
+                            $deleteLike = "DELETE FROM likes WHERE post_id ='$idDuPost' AND user_id ='" . $_SESSION['connected_id'] . "';";
+                            $mysqli->query($deleteLike);
+                            $post['like_number']--;
+                        } else {
+                            $questionSqlNewLike = "INSERT INTO likes (id, post_id, user_id) VALUES (NULL, '$idDuPost', '" . $_SESSION['connected_id'] . "');";
+                            $mysqli->query($questionSqlNewLike);
+                            $post['like_number']++;
+                        }
+                    }
+                    ;
+                }
                 ?>
                 <article>
                     <h3>
@@ -88,19 +113,25 @@ include('forbidenpage.php');
                         <?php echo $post['content'] ?>
                     </div>
                     <footer>
-                        <small>♥
-                            <?php echo $post['like_number'] ?>
-                        </small>
+                        <form action="" method="post">
+                            <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
+                                <small>
+                                    ♥
+                                    <?php echo $post['like_number'] ?>
+                                </small>
+                            </button>
+                        </form>
+
                         <?php
 
-                        $idDUPost = $post['id'];
+
 
                         //Récupération des label des tags et tag_id sur les posts
                         $laQsurlesLabels = "
                         SELECT tags.label, posts_tags.tag_id 
                         FROM tags 
                         INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
-                        WHERE post_id = $idDUPost";
+                        WHERE post_id = $idDuPost";
 
                         $listsTags = $mysqli->query($laQsurlesLabels);
 
