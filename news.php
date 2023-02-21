@@ -20,25 +20,19 @@ session_start();
         if (empty($_SESSION['connected_id'])){
             ?>
             <div id="wrapper">
-                <article>
+                <article class="card_gestion_connexion">
                 <p>
                     <?php echo "Veuillez vous ";?>
                     <a href="login.php">connecter</a>
                     <?php echo "ou ";?>
-                    <a href="registration.php">créer votre compte</a>    
+                    <a href="registration.php">créer votre compte.</a>    
                 </p>
                 </article>
             </div>
             <?php
-        } else {
-            echo "Vous êtes loggé";
         }
     
     ?>
-
-    <div id="gestion_connexion">
-        <p></p>
-    </div>
 
     <div id="wrapper">
 
@@ -119,7 +113,7 @@ session_start();
                         </p>
                     </div>
 
-                    <div class="coms">
+                    <div class="tags">
                         <?php
                             //Récupération des label des tags et tag_id sur les posts
                             $laQsurlesLabels = "

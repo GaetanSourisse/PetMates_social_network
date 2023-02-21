@@ -11,7 +11,6 @@ include('forbidenpage.php');
 </head>
 
 <body>
-
     <?php include_once('header.php'); ?>
     <?php include('connexion.php'); ?>
 
