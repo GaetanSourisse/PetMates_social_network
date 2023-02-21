@@ -1,9 +1,10 @@
 <header>
     <img src="resoc.jpg" alt="Logo de notre réseau social" />
     <nav id="menu">
+        <a>PETMATES</a>
         <a href="news.php">Actualités</a>
         <a href="feed.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Flux</a>
-    </nav>    
+    </nav>
     <nav id="tags">
         <a href="#">Rechercher un tag</a>
         <ul>
@@ -13,10 +14,10 @@
             //verification
             if ($mysqli->connect_errno) {
                 echo ("Échec de la connexion : " . $mysqli->connect_error);
-            exit();
+                exit();
             }
             //création de la requête pour aller chercher tous les tags disponibles
-            $questionTagsSql = "SELECT * FROM tags" ;
+            $questionTagsSql = "SELECT * FROM tags";
             $infosTags = $mysqli->query($questionTagsSql);
             while ($tagInfo = $infosTags->fetch_assoc()) {
                 $tagLabel = $tagInfo['label'];
@@ -25,7 +26,7 @@
                 <li class="deroulant">
                     <a href="tags.php?tag_id=<?php echo $tagId ?>"><?php echo $tagLabel ?></a>
                 </li>
-            <?php 
+            <?php
             }
             ?>
         </ul>
@@ -45,7 +46,7 @@
     </nav>
     <?php
     if (isset($_POST['déconnexion'])) {
-       session_unset();
+        session_unset();
     }
     ;
 
