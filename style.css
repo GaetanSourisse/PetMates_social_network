@@ -1,6 +1,7 @@
 body{
-    background-color: rgb(107, 186, 120);
-    font-family: Arial;
+    background-color: rgb(210, 210, 210);
+    font-family: 'Heebo', sans-serif;
+    margin:0;
 }
 
 a{text-decoration: none; color:black;}
@@ -16,6 +17,7 @@ body>header{
 }
 body>header img{
     height:5em;
+    margin: 5px 5px 5px 5px;
 }
 body>header #menu {
     display:flex;
@@ -67,19 +69,8 @@ body>header #user:hover ul{
 
 #wrapper{
     display:flex;    
-    width:80em;
+    width:70em;
     margin:0 auto 2em auto;
-}
-#wrapper aside{
-    background-color: #fff;
-    flex:1;
-    padding:1em;
-    border-radius: 1em;    
-}
-#wrapper aside img{
-    display: block;
-    width:50%;
-    margin:auto;
 }
 
 #wrapper main{
@@ -95,29 +86,42 @@ body>header #user:hover ul{
     border-radius: 1em;
 }
 #wrapper main article h3{
-    margin:0;
+    margin:0em 1em 0em 1em;
     padding:0;
-    font-weight: normal;
+    font-weight:lighter;
     font-size:1em;
 
 }
 #wrapper main article time{
     float:left;
+    font-style: normal;
+    color:rgb(140, 140, 186);
 }
 #wrapper main article address{
     text-align: right;
+    font-style: italic;
     margin-bottom: 1em;
 }
 #wrapper main article p{
-    margin:0;
+    margin:0em 3em 0em 3em;
 }
+
 #wrapper main article footer{
-    margin-top: 1em;
-    text-align: right;
+    margin: 0em 0.5em 0em 0.5em;
+    display:flex;
+    justify-content: space-between;
 }
-#wrapper main article footer small{
-    float:left;
+
+.coms {
+    font-size: 1em;
+    margin-right: 1em;
+    margin-bottom: 0.5em;
+    text-align:right;
 }
+
+
+
+
 
 #wrapper.admin{flex-direction: row-reverse}
 #wrapper.admin aside{flex:1;margin-left:1em;border-radius:0;padding:0;}

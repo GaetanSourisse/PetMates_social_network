@@ -6,10 +6,8 @@ include('forbidenpage.php');
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8">
+    <?php include_once('headmeta.php'); ?>
     <title>ReSoC - Mes abonnements</title>
-    <meta name="author" content="Julien Falconnet">
-    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>

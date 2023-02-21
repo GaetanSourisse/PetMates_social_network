@@ -5,10 +5,8 @@ session_start();
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8">
+    <?php include_once('headmeta.php'); ?>
     <title>ReSoC - Actualités</title>
-    <meta name="author" content="Julien Falconnet">
-    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -44,14 +42,6 @@ session_start();
 
     <div id="wrapper">
 
-        <aside>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
-            <section>
-                <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez les derniers messages de
-                    toutes les utilisatrices du site.</p>
-            </section>
-        </aside>
         <main>
 
             <?php
@@ -117,7 +107,7 @@ session_start();
                 <article>
                     <h3>
                         <time>
-                            <?php echo $post['created'] ?>
+                            Publié le <?php echo $post['created'] ?>
                         </time>
                     </h3>
 
@@ -129,6 +119,25 @@ session_start();
                         </p>
                     </div>
 
+                    <div class="coms">
+                        <?php
+                            //Récupération des label des tags et tag_id sur les posts
+                            $laQsurlesLabels = "
+                            SELECT tags.label, posts_tags.tag_id 
+                            FROM tags 
+                            INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
+                            WHERE post_id = $idDuPost";
+                            
+                            $listsTags = $mysqli->query($laQsurlesLabels);
+
+                            while ($tags = $listsTags->fetch_assoc()) { ?>
+                                <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                    <?php echo "#" . $tags['label'] ?>
+                                </a>
+                            <?php
+                            } ?>
+                    </div>
+
                     <footer>
                         <?php
                         if(!empty($_SESSION['connected_id'])){
@@ -137,8 +146,10 @@ session_start();
                             <form action="" method="post">
                                 <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
                                     <small>
-                                        ♥
-                                        <?php echo $post['like_number'] ?>
+                                        <div class="likePlace">
+                                            ♥
+                                            <?php echo $post['like_number'] ?>
+                                        </div>
                                     </small>
                                 </button>
                             </form>  
@@ -150,7 +161,9 @@ session_start();
                     
                         
                     <form action="" method="post">
+                        <div class="coms">
                         <button type="submit" name="comment" value="<?php echo $idDuPost ?>">Commentaires</button>
+                    </div>
                     </form>
 
                     <?php
@@ -170,22 +183,6 @@ session_start();
 
                     }
                     ?>
-                        <?php
-                        //Récupération des label des tags et tag_id sur les posts
-                        $laQsurlesLabels = "
-                        SELECT tags.label, posts_tags.tag_id 
-                        FROM tags 
-                        INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
-                        WHERE post_id = $idDuPost";
-                        
-                        $listsTags = $mysqli->query($laQsurlesLabels);
-
-                        while ($tags = $listsTags->fetch_assoc()) { ?>
-                            <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
-                                <?php echo "#" . $tags['label'] ?>
-                            </a>
-                        <?php
-                        } ?>
 
                     </footer>
 

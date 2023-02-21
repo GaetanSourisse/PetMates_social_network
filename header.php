@@ -1,5 +1,5 @@
 <header>
-    <img src="resoc.jpg" alt="Logo de notre réseau social" />
+    <img src="resoc.png" alt="Logo de notre réseau social" />
     <nav id="menu">
         <a href="news.php">Actualités</a>
         <a href="feed.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Flux</a>
