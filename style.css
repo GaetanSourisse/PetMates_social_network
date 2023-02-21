@@ -4,7 +4,7 @@ body{
     margin:0;
 }
 
-a{text-decoration: none; color:black;}
+a{text-decoration: none; color:#99b;}
 a:hover{text-decoration: underline;}
 
 body>header{
@@ -37,31 +37,32 @@ body>header #user
 {
     margin-left: auto;
     flex:0.2;
-    /* border-left: 1px solid #99b; */
+
 }
 body>header #user>a{
     display:block;
     text-align: center;
-    padding:2em 0;
+    padding-top:2em;
+    padding-bottom:0.5em;
     width:100%;
 }
 body>header #user ul{ 
     display: none;
     position: absolute;
-    padding:0;
+    padding:0 0 0 0;
     margin:0;
     text-align: center;
     background-color: #fff;
-    border: 1px solid #99b;
 
     z-index: 1;
 }
 body>header #user ul li a{
     display:block;
-    width:10em;
-    padding:1em;
-    border-bottom: 1px solid #99b;
+    width:8.5em;
+    padding:0.5em 0em 0.5em 0;
+    
 }
+
 body>header #user:hover ul{
     display:block;
 }
@@ -180,7 +181,7 @@ body>header #tags ul{
     position:absolute;
     margin-top: 4em;
     background-color: #fff;
-    height: 150px;
+    height: 120px;
     width: 180px;
     overflow-y: scroll;
     padding: 0 0 0 0;
