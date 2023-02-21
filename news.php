@@ -143,14 +143,14 @@ session_start();
                                             </div>
                             </button>
                         </form>
-
+                            <?php
                             while ($tags = $listsTags->fetch_assoc()) { ?>
                                 <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
                                     <?php echo "#" . $tags['label'] ?>
                                 </a>
                             <?php
                             } ?>
-                        </div>
+                        
                     </footer>
 
                     <div id="allcomments">
