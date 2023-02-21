@@ -4,7 +4,7 @@ body{
     margin:0;
 }
 
-a{text-decoration: none; color:black;}
+a{text-decoration: none; color: rgb(59, 59, 59);}
 a:hover{text-decoration: underline;}
 
 body>header{
@@ -77,7 +77,6 @@ body>header #user:hover ul{
     flex:3;
     padding-left:1em;
     height: 80vh;
-    overflow-y:  scroll;
 }
 #wrapper main article{
     background-color: #fff;
@@ -112,13 +111,20 @@ body>header #user:hover ul{
     justify-content: space-between;
 }
 
-.coms {
+.tags {
     font-size: 1em;
     margin-right: 1em;
     margin-bottom: 0.5em;
     text-align:right;
 }
 
+.card_gestion_connexion {
+    background-color: rgba(0, 108, 227,0.2);
+    border:2px solid #006CE3;
+    border-radius: 1em;
+    padding: 0em 1em 0em 1em;
+    margin-left: 1em;
+}
 
 
 
@@ -180,7 +186,7 @@ body>header #tags ul{
     position:absolute;
     margin-top: 4em;
     background-color: #fff;
-    height: 150px;
+    height: 120px;
     width: 180px;
     overflow-y: scroll;
     padding: 0 0 0 0;

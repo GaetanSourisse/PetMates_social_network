@@ -29,17 +29,6 @@ include('forbidenpage.php');
             //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
             //echo "<pre>" . print_r($user, 1) . "</pre>";
             ?>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
-            <section>
-                <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message des utilisatrices
-                    auxquel est abonnée l'utilisatrice
-                    <a href="wall.php?user_id=<?php echo $userId ?>"><?php echo $user['alias'] ?></a>
-                    (n°
-                    <?php echo $userId ?>)
-                </p>
-
-            </section>
         </aside>
         <main>
             <?php
@@ -103,27 +92,17 @@ include('forbidenpage.php');
                 <article>
                     <h3>
                         <time>
-                            <?php echo $post['created'] ?>
+                            Publié le <?php echo $post['created'] ?>
                         </time>
                     </h3>
                     <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
                     <div>
+                        <p>
                         <?php echo $post['content'] ?>
+                        </p>
                     </div>
-                    <footer>
-                        <form action="" method="post">
-                            <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
-                                <small>
-                                    ♥
-                                    <?php echo $post['like_number'] ?>
-                                </small>
-                            </button>
-                        </form>
-
+                    <div class="tags">
                         <?php
-
-
-
                         //Récupération des label des tags et tag_id sur les posts
                         $laQsurlesLabels = "
                         SELECT tags.label, posts_tags.tag_id 
@@ -139,10 +118,21 @@ include('forbidenpage.php');
                             </a>
                         <?php
                         } ?>
+                    </div>
+                    <footer>
+                        <form action="" method="post">
+                            <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
+                                <small>
+                                    <div class="likePlace">
+                                    ♥
+                                    <?php echo $post['like_number'] ?>
+                                    </div>
+                                </small>
+                            </button>
+                        </form>
                     </footer>
                 </article>
             <?php }
-            // et de pas oublier de fermer ici vote while
             ?>
 
 
