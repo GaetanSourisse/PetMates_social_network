@@ -16,7 +16,7 @@ include('forbidenpage.php');
     <?php include('connexion.php'); ?>
 
     <div id="wrapper">
-        <aside>
+        <aside class="present-profil">
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>

@@ -10,11 +10,12 @@ a:hover{text-decoration: underline;}
 body>header{
     background-color: #fff;
     display:flex;
+    position:fixed;
     width:100%;
     margin:0 auto 2em auto;    
     padding:0;
-
 }
+
 body>header img{
     height:5em;
     margin: 5px 5px 5px 5px;
@@ -25,6 +26,12 @@ body>header #menu {
     align-items: stretch;
     /* border-left: 1px solid #99b; */
 }
+
+body>header #menu h1{
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
 body>header #menu a{
     flex:1;
     text-align: center;
@@ -60,18 +67,40 @@ body>header #user ul li a{
     display:block;
     width:9.5em;
     padding:0.5em 0em 0.5em 0;
-    
 }
 
 body>header #user:hover ul{
     display:block;
 }
 
+.alert {
+    padding-top: 7em;
+}
+
+.card_gestion_connexion {
+    background-color: rgba(0, 108, 227,0.2);
+    border:2px solid #006CE3;
+    border-radius: 1em;
+    padding: 0em 3em 0em 3em;
+    width: 30em;
+    margin-left: 12em;
+}
+
+.present-profil {
+    display:flex;
+    flex-direction: column;
+    background-color: #fff;
+    color:black;
+    width: 13em;
+    border-radius: 1em;
+    padding: 0em 1em 0em 1em;
+}
 
 #wrapper{
     display:flex;    
     width:70em;
-    margin:0 auto 2em auto;
+    margin:0em auto 2em auto;
+    padding:2em 0em 5em 0em;
 }
 
 #wrapper main{
@@ -79,6 +108,7 @@ body>header #user:hover ul{
     padding-left:1em;
     height: 80vh;
 }
+
 #wrapper main article{
     background-color: #fff;
     padding:1em;
@@ -118,15 +148,6 @@ body>header #user:hover ul{
     margin-bottom: 0.5em;
     text-align:right;
 }
-
-.card_gestion_connexion {
-    background-color: rgba(0, 108, 227,0.2);
-    border:2px solid #006CE3;
-    border-radius: 1em;
-    padding: 0em 1em 0em 1em;
-    margin-left: 1em;
-}
-
 
 
 

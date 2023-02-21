@@ -1,7 +1,7 @@
 <header>
     <img src="resoc.png" alt="Logo de notre réseau social" />
     <nav id="menu">
-        <a>PETMATES</a>
+        <h1>PETMATES</h1>
         <a href="news.php">Actualités</a>
         <a href="feed.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Flux</a>
     </nav>

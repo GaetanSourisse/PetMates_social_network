@@ -21,7 +21,7 @@ include('forbidenpage.php');
         $tagId = intval($_GET['tag_id']);
         ?>
 
-        <aside>
+        <aside class="present-profil">
             <?php
 
             $laQuestionEnSql = "SELECT * FROM tags WHERE id= '$tagId' ";
@@ -36,9 +36,7 @@ include('forbidenpage.php');
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez les derniers messages comportant
                     le mot-clé #
-                    <?php echo $tag['label'] ?>
-                    (n°
-                    <?php echo $tag['id'] ?>)
+                    <?php echo $tag['label'] ?>.
                 </p>
             </section>
         </aside>
@@ -109,6 +107,23 @@ include('forbidenpage.php');
                     <div>
                         <?php echo $post['content'] ?>
                     </div>
+                    <div class="tags">
+                    <?php
+                        //Récupération des label des tags et tag_id sur les posts
+                        $laQsurlesLabels = "
+                                SELECT tags.label, posts_tags.tag_id 
+                                FROM tags 
+                                INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
+                                WHERE post_id = $idDuPost";
+
+                        $listsTags = $mysqli->query($laQsurlesLabels);
+
+                        while ($tags = $listsTags->fetch_assoc()) { ?>
+                            <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                <?php echo "#" . $tags['label'] ?>
+                            </a>
+                        <?php }?>
+                    </div>
                     <footer>
                         <?php
                         if ($post['user_id'] !== $_SESSION['connected_id']) {
@@ -123,31 +138,11 @@ include('forbidenpage.php');
                             </form>
 
                         <?php
-                        }
-
-
-
-                        //Récupération des label des tags et tag_id sur les posts
-                        $laQsurlesLabels = "
-                                SELECT tags.label, posts_tags.tag_id 
-                                FROM tags 
-                                INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
-                                WHERE post_id = $idDuPost";
-
-                        $listsTags = $mysqli->query($laQsurlesLabels);
-
-                        while ($tags = $listsTags->fetch_assoc()) { ?>
-                            <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
-                                <?php echo "#" . $tags['label'] ?>
-                            </a>
-                        <?php
                         } ?>
-
 
                     </footer>
                 </article>
             <?php } ?>
-
 
         </main>
     </div>

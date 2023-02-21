@@ -19,7 +19,7 @@ include('forbidenpage.php');
         //on récupère le user_id depuis l'url du mur où on se trouve
         $userId = intval($_GET['user_id']);
         ?>
-        <aside>
+        <aside class="present-profil">
 
             <?php
 
@@ -70,6 +70,7 @@ include('forbidenpage.php');
                 }
                 ;
                 ?>
+
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
                     <?php echo $user['alias'] ?>
@@ -150,7 +151,7 @@ include('forbidenpage.php');
             <?php
             //récupérer tous les posts du user visité
             $laQuestionEnSql = "
-                    SELECT posts.content, posts.created, users.alias as author_name, 
+                    SELECT posts.content, posts.created, posts.user_id, posts.id, users.alias as author_name, 
                     COUNT(likes.id) as like_number, GROUP_CONCAT(DISTINCT tags.label) AS taglist 
                     FROM posts
                     JOIN users ON  users.id=posts.user_id
@@ -167,6 +168,33 @@ include('forbidenpage.php');
             }
 
             while ($post = $lesInformations->fetch_assoc()) {
+
+                //infos concernant les likes
+                $idDuPost = $post['id'];
+                //si le bouton like est cliqué
+                if (isset($_POST['like']) && $_POST['like'] == $idDuPost) {
+
+                    // requête pour chercher si le like existe
+                    $questionSqlIsLiked = "SELECT * FROM likes WHERE post_id='$idDuPost' AND user_id='" . $_SESSION['connected_id'] . "';";
+                    $infoLiked = $mysqli->query($questionSqlIsLiked);
+                    // si la requête échoue, message échec
+                    if (!$infoLiked) {
+                        echo "échec" . $mysqli->error;
+                    } else {
+                        // si la requête réussit, si le like est déjà présent alors le count like désincrémente, sinon il s'incrémente 
+                        if ($infoLiked->fetch_assoc()) {
+                            $deleteLike = "DELETE FROM likes WHERE post_id ='$idDuPost' AND user_id ='" . $_SESSION['connected_id'] . "';";
+                            $mysqli->query($deleteLike);
+                            $post['like_number']--;
+                        } else {
+                            $questionSqlNewLike = "INSERT INTO likes (id, post_id, user_id) VALUES (NULL, '$idDuPost', '" . $_SESSION['connected_id'] . "');";
+                            $mysqli->query($questionSqlNewLike);
+                            $post['like_number']++;
+                        }
+                    }
+                    ;
+
+                }
                 ?>
                 <article>
                     <h3>
@@ -178,16 +206,31 @@ include('forbidenpage.php');
                         <?php echo $post['author_name'] ?>
                     </address>
                     <div>
+                        <p>
                         <?php echo $post['content'] ?>
+                        </p>
                     </div>
-                    <footer>
-                        <small>♥
-                            <?php echo $post['like_number'] ?>
-                        </small>
+                    <div class="tags">
                         <a href="">#
                             <?php echo $post['taglist'] ?>
                         </a>
-                    </footer>
+                        </div>
+                        <footer>
+                                <form action="" method="post">
+                                    <button type='submit' name='like' value='<?php echo $idDuPost ?>'
+                                    <?php if (!empty($_SESSION['connected_id'])) {
+                                    if ($post['user_id'] == $_SESSION['connected_id']) {
+                                        echo "disabled";}} ?>>
+
+                                            <div class="likePlace">
+                                                ♥
+                                                <?php echo $post['like_number'] ?>
+                                            </div>
+
+                                    </button>
+                                </form>
+                        </footer>
+
                 </article>
             <?php } ?>
 

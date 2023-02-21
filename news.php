@@ -13,13 +13,12 @@ session_start();
 
     <?php include_once('header.php'); ?>
     <?php include('connexion.php'); ?>
-
-    <!-- Cas où la personne n'est pas loggée -->
-    <!-- On lui propose de se logger ou de créer son compte -->
-    <?php
-    if (empty($_SESSION['connected_id'])) {
+    <div class="alert">
+        <!-- Cas où la personne n'est pas loggée -->
+        <!-- On lui propose de se logger ou de créer son compte -->
+        <?php
+        if (empty($_SESSION['connected_id'])) {
         ?>
-        <div id="wrapper">
             <article class="card_gestion_connexion">
                 <p>
                     <?php echo "Veuillez vous "; ?>
@@ -28,12 +27,10 @@ session_start();
                     <a href="registration.php">créer votre compte.</a>
                 </p>
             </article>
-        </div>
-    <?php
-    }
 
-    ?>
-
+        <?php
+        }?>
+    </div>
     <div id="wrapper">
 
         <main>
@@ -127,37 +124,30 @@ session_start();
 
                         while ($tags = $listsTags->fetch_assoc()) { ?>
                             <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
-                                <?php echo "#" . $tags['label'] ?>
+                                <?php echo "#".$tags['label'] ?>
                             </a>
                         <?php
                         } ?>
                     </div>
 
                     <footer>
-                        <?php
-                        if (!empty($_SESSION['connected_id'])) {
-                            if ($post['user_id'] !== $_SESSION['connected_id']) {
-                                ?>
-                                <form action="" method="post">
-                                    <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
-                                        <small>
+                        <form action="" method="post">
+                            <button type='submit' name='like' value='<?php echo $idDuPost ?>'
+                                <?php if (!empty($_SESSION['connected_id'])) {
+                                if ($post['user_id'] == $_SESSION['connected_id']) {
+                                    echo "disabled";}} ?>>
+
                                             <div class="likePlace">
                                                 ♥
                                                 <?php echo $post['like_number'] ?>
                                             </div>
-                                        </small>
-                                    </button>
-                                </form>
-                            <?php
-                            }
-                            ?>
-                        <?php
-                        } ?>
+                            </button>
+                        </form>
 
                     </footer>
                     <!-- <form action="" method="post">
                                 <div class="coms">
-                                    <button type="submit" name="comment" value="<?php echo $idDuPost ?>">Commentaires</button>
+                                    <button type="submit" name="comment" value="<?php //echo $idDuPost ?>">Commentaires</button>
                                 </div>
                             </form> -->
 

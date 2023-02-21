@@ -15,15 +15,13 @@ include('forbidenpage.php');
     <?php include_once('header.php'); ?>
     <?php include('connexion.php'); ?>
 
-    <div id="wrapper" class='profile'>
+    <div id="wrapper">
 
-        <aside>
+        <aside class="present-profil">
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
-                <h3>À Supprimer ???</h3>
-                <p>Sur cette page vous trouverez les informations de l'utilisatrice
-                    n°
-                    <?php echo intval($_GET['user_id']) ?>
+                <h3>Mon profil</h3>
+                <p>Sur cette page vous trouverez toutes les informations relatives à votre compte.
                 </p>
 
             </section>
