@@ -16,22 +16,22 @@ session_start();
 
     <!-- Cas où la personne n'est pas loggée -->
     <!-- On lui propose de se logger ou de créer son compte -->
-    <?php 
-        if (empty($_SESSION['connected_id'])){
-            ?>
-            <div id="wrapper">
-                <article class="card_gestion_connexion">
+    <?php
+    if (empty($_SESSION['connected_id'])) {
+        ?>
+        <div id="wrapper">
+            <article class="card_gestion_connexion">
                 <p>
-                    <?php echo "Veuillez vous ";?>
+                    <?php echo "Veuillez vous "; ?>
                     <a href="login.php">connecter</a>
-                    <?php echo "ou ";?>
-                    <a href="registration.php">créer votre compte.</a>    
+                    <?php echo "ou "; ?>
+                    <a href="registration.php">créer votre compte.</a>
                 </p>
-                </article>
-            </div>
-            <?php
-        }
-    
+            </article>
+        </div>
+    <?php
+    }
+
     ?>
 
     <div id="wrapper">
@@ -101,7 +101,8 @@ session_start();
                 <article>
                     <h3>
                         <time>
-                            Publié le <?php echo $post['created'] ?>
+                            Publié le
+                            <?php echo $post['created'] ?>
                         </time>
                     </h3>
 
@@ -115,70 +116,73 @@ session_start();
 
                     <div class="tags">
                         <?php
-                            //Récupération des label des tags et tag_id sur les posts
-                            $laQsurlesLabels = "
+                        //Récupération des label des tags et tag_id sur les posts
+                        $laQsurlesLabels = "
                             SELECT tags.label, posts_tags.tag_id 
                             FROM tags 
                             INNER JOIN posts_tags ON tags.id = posts_tags.tag_id 
                             WHERE post_id = $idDuPost";
-                            
-                            $listsTags = $mysqli->query($laQsurlesLabels);
 
-                            while ($tags = $listsTags->fetch_assoc()) { ?>
-                                <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
-                                    <?php echo "#" . $tags['label'] ?>
-                                </a>
-                            <?php
-                            } ?>
+                        $listsTags = $mysqli->query($laQsurlesLabels);
+
+                        while ($tags = $listsTags->fetch_assoc()) { ?>
+                            <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                <?php echo "#" . $tags['label'] ?>
+                            </a>
+                        <?php
+                        } ?>
                     </div>
 
                     <footer>
                         <?php
-                        if(!empty($_SESSION['connected_id'])){
+                        if (!empty($_SESSION['connected_id'])) {
                             if ($post['user_id'] !== $_SESSION['connected_id']) {
-                            ?>
-                            <form action="" method="post">
-                                <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
-                                    <small>
-                                        <div class="likePlace">
-                                            ♥
-                                            <?php echo $post['like_number'] ?>
-                                        </div>
-                                    </small>
-                                </button>
-                            </form>  
-                            <?php 
+                                ?>
+                                <form action="" method="post">
+                                    <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
+                                        <small>
+                                            <div class="likePlace">
+                                                ♥
+                                                <?php echo $post['like_number'] ?>
+                                            </div>
+                                        </small>
+                                    </button>
+                                </form>
+                            <?php
                             }
                             ?>
                         <?php
                         } ?>
-                    
-                        
-                    <form action="" method="post">
-                        <div class="coms">
-                        <button type="submit" name="comment" value="<?php echo $idDuPost ?>">Commentaires</button>
-                    </div>
-                    </form>
+
+                    </footer>
+                    <!-- <form action="" method="post">
+                                <div class="coms">
+                                    <button type="submit" name="comment" value="<?php echo $idDuPost ?>">Commentaires</button>
+                                </div>
+                            </form> -->
 
                     <?php
-                     
+
                     $requeteComment = "SELECT * FROM comments WHERE id_post = '$idDuPost';";
                     $infoComment = $mysqli->query($requeteComment);
 
-                    if (isset($_POST['comment']) && $_POST['comment'] == $idDuPost) {
-                        
-                        while ($comment = $infoComment->fetch_assoc()) {
-                          ?>
-                          <div>
-                            <adress>Par l'utilisatrice n°<a href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php echo $comment['user_id'] ?></a></adress>
-                            <p><?php echo $comment['content'] ?></p>
-                          </div>
-                        <?php }
+                    // if (isset($_POST['comment']) && $_POST['comment'] == $idDuPost) {
+                
+                    while ($comment = $infoComment->fetch_assoc()) {
+                        ?>
+                        <article>
+                            <adress>Par l'utilisatrice n°<a href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
+                               echo $comment['user_id'] ?></a></adress>
+                            <p>
+                                <?php echo $comment['content'] ?>
+                            </p>
+                        </article>
+                    <?php }
 
-                    }
+                    //}
                     ?>
 
-                    </footer>
+
 
                 </article>
             <?php
