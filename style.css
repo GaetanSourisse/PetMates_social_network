@@ -103,6 +103,24 @@ body>header #user:hover ul{
     padding:2em 0em 5em 0em;
 }
 
+#wrappercomment{
+    display: flex;
+    flex-direction: column;
+    border-top: solid 1px black;
+    margin: 1em 0 1em 0;
+    padding-top: 1em;
+    
+}
+#begin{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+}
+
+#allcomments{
+    border-bottom: solid 1px black;
+}
+
 #wrapper main{
     flex:3;
     padding-left:1em;

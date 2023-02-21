@@ -144,41 +144,69 @@ session_start();
                             </button>
                         </form>
 
+                            while ($tags = $listsTags->fetch_assoc()) { ?>
+                                <a href="tags.php?tag_id=<?php echo $tags['tag_id'] ?>">
+                                    <?php echo "#" . $tags['label'] ?>
+                                </a>
+                            <?php
+                            } ?>
+                        </div>
                     </footer>
-                    <!-- <form action="" method="post">
-                                <div class="coms">
-                                    <button type="submit" name="comment" value="<?php //echo $idDuPost ?>">Commentaires</button>
+
+                    <div id="allcomments">
+                        <?php
+                        //envoi du commentaire dans la bdd
+                        $userId = $_SESSION['connected_id'];
+                        $commentContent = $_POST['commentaire'];
+                        $commentContent = $mysqli->real_escape_string($commentContent);
+                        $postComment = $_POST['postcomment'];
+                        $rqtComment = "INSERT INTO comments(id, id_post, content, user_id, created) VALUES (NULL,'$idDuPost','$commentContent','$userId',NOW());";
+
+                        if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
+                            $infoPostComment = $mysqli->query($rqtComment);
+
+                        }
+
+                        //affichage des commentaires
+                        $requeteComment = "SELECT * FROM comments WHERE id_post = '$idDuPost';";
+                        $infoComment = $mysqli->query($requeteComment);
+
+                        while ($comment = $infoComment->fetch_assoc()) {
+                            ?>
+                            <div id="wrappercomment">
+                                <div id="begin">
+                                    <h3>
+                                        <time>
+                                            Publié le
+                                            <?php echo $comment['created'] ?>
+                                        </time>
+                                    </h3>
+                                    <adress>Par l'utilisatrice n°<a
+                                            href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
+                                               echo $comment['user_id'] ?></a>
+                                    </adress>
                                 </div>
-                            </form> -->
-
-                    <?php
-
-                    $requeteComment = "SELECT * FROM comments WHERE id_post = '$idDuPost';";
-                    $infoComment = $mysqli->query($requeteComment);
-
-                    // if (isset($_POST['comment']) && $_POST['comment'] == $idDuPost) {
-                
-                    while ($comment = $infoComment->fetch_assoc()) {
+                                <div>
+                                    <p>
+                                        <?php echo $comment['content'] ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php }
                         ?>
-                        <article>
-                            <adress>Par l'utilisatrice n°<a href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
-                               echo $comment['user_id'] ?></a></adress>
-                            <p>
-                                <?php echo $comment['content'] ?>
-                            </p>
-                        </article>
-                    <?php }
-
-                    //}
-                    ?>
-
-
-
+                    </div>
+                    <form action="" method="post">
+                        <dl>
+                            <dt><label for='commentaire'>Commentaire</label></dt>
+                            <dd><textarea name='commentaire'></textarea></dd>
+                        </dl>
+                        <button type='submit' name='postcomment' value='<?php echo $idDuPost ?>'>Envoyer le
+                            commentaire</button>
+                    </form>
                 </article>
             <?php
             }
             ?>
-
         </main>
     </div>
 </body>
