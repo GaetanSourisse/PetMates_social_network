@@ -4,7 +4,7 @@ body{
     margin:0;
 }
 
-a{text-decoration: none; color:#99b;}
+a{text-decoration: none; color:rgb(126, 126, 179);}
 a:hover{text-decoration: underline;}
 
 body>header{
@@ -58,7 +58,7 @@ body>header #user ul{
 }
 body>header #user ul li a{
     display:block;
-    width:8.5em;
+    width:9.5em;
     padding:0.5em 0em 0.5em 0;
     
 }
