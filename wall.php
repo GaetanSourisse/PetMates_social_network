@@ -220,9 +220,13 @@ include('forbidenpage.php');
                         </p>
                     </div>
                     <div class="tags">
+                        <?php 
+                        //On vérifie que la taglist n'est pas vide avant d'afficher le #
+                        if(!empty($post['taglist'])) { ?>
                         <a href="">#
-                            <?php echo $post['taglist'] ?>
+                        <?php echo $post['taglist'] ?>
                         </a>
+                        <?php } ?>
                     </div>
                     <footer>
                                 <form action="" method="post">
