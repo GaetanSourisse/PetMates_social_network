@@ -97,10 +97,17 @@ session_start();
                 <!-- on créé un article dans le html -->
                 <article>
                     <h3>
-                        <time>
-                            Publié le
-                            <?php echo $post['created'] ?>
-                        </time>
+                    <time>
+                        <?php
+                        //formatage de la date
+                        $stringDate = $post['created'];
+                        $dateJourTiret = substr($stringDate, 0, 9);
+                        $heureTiret = substr($stringDate, 11, -1);
+                        list($year, $day, $month) = explode("-",$dateJourTiret);
+                        list($hour, $minuts, $seconds) = explode(":", $heureTiret);
+                        ?>
+                        Publié le <?php echo $day."/".$month."/".$year ?> à <?php echo $hour ?> h <?php echo $minuts ?>
+                    </time>
                     </h3>
 
                     <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
@@ -182,10 +189,17 @@ session_start();
                             <div id="wrappercomment">
                                 <div id="begin">
                                     <h3>
-                                        <time>
-                                            Publié le
-                                            <?php echo $comment['created'] ?>
-                                        </time>
+                                    <time>
+                                        <?php
+                                        //formatage de la date
+                                        $stringDate = $comment['created'];
+                                        $dateJourTiret = substr($stringDate, 0, 9);
+                                        $heureTiret = substr($stringDate, 11, -1);
+                                        list($year, $day, $month) = explode("-",$dateJourTiret);
+                                        list($hour, $minuts, $seconds) = explode(":", $heureTiret);
+                                        ?>
+                                        Publié le <?php echo $day."/".$month."/".$year ?> à <?php echo $hour ?> h <?php echo $minuts ?>
+                                    </time>
                                     </h3>
                                     <adress>par <a
                                             href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
