@@ -78,10 +78,57 @@ include('forbidenpage.php');
                     (n°
                     <?php echo $userId ?>)
                 </p>
+
+                
                 <?php 
                 //si on est sur son propre mur, on ajoute la possibilité d'afficher les abonnements et abonnés
                 if ($userId == intval($_SESSION['connected_id'])) {
                     ?>
+
+                    <h4>Mes animaux</h4>
+
+                    <div class="AjoutPets">
+                        <form action='' method="post">
+                            <button name="addPets" type="submit">+ Ajouter un animal</button>
+                        </form>
+                     <?php   
+
+
+                        $requetePet = "INSERT INTO pets (id, user_id, type_pet, race_pet, name_pet)"
+                        . "VALUES (NULL, "
+                        . "'" . $_SESSION['connected_id'] . "', "
+                        . "'" . $_POST['typePet'] . "', "
+                        . "'" . $_POST['racePet'] . "', "
+                        . "'" . $_POST['namePet'] . "'" 
+                        . ");";
+
+                        if (isset($_POST['addPets'])) {
+                            
+                            ?>
+                            <form action="" method="post">
+                                <dl>
+                                    <dt><label for='typePet'>Type de l'animal</label></dt>
+                                    <dd><input name='typePet'></dd>
+                                    
+                                    <dt><label for='racePet'>Race de l'animal</label></dt>
+                                    <dd><input name="racePet"></dd>
+                                    
+                                    <dt><label for='namePet'>Nom de l'animal</label></dt>
+                                    <dd><input name='namePet'></dd>
+                                </dl>
+                                
+                                <input type='submit' value="valider">
+                            </form>
+                            <?php
+
+                        }
+                            if (isset($_POST['typePet'])) {
+                               var_dump ("coucou");
+                               $infoPets = $mysqli->query($requetePet);
+                            }
+                    ?>
+                    </div>   
+                    
                     <div class="info-followers">
                         <li><a href="followers.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mes suiveurs</a></li>
                         <li><a href="subscriptions.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mes abonnements</a></li>
