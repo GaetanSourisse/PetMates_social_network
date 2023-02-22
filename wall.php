@@ -48,7 +48,7 @@ include('forbidenpage.php');
             $user = $lesInformations->fetch_assoc();
 
             // ?>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
+            <img src="user.png" alt="Portrait de l'utilisatrice" />
             <section>
                 <?php
 
