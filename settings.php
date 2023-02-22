@@ -19,7 +19,7 @@ include('forbidenpage.php');
     <div id="wrapper">
 
         <aside class="present-profil">
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
+            <img src="user.png" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Mon profil</h3>
                 <p>Sur cette page vous trouverez toutes les informations relatives à votre compte.
