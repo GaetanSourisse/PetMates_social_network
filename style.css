@@ -297,3 +297,8 @@ body>header #tags .deroulant:hover {
     font-size: x-large;
     text-align: center;
 }
+
+/* boutton supprimer */
+.delete {
+    padding: 0.2em;
+}

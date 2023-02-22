@@ -34,9 +34,7 @@ session_start();
     <div id="wrapper">
 
         <main>
-
             <?php
-
             $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
@@ -88,9 +86,7 @@ session_start();
                             $mysqli->query($questionSqlNewLike);
                             $post['like_number']++;
                         }
-                    }
-                    ;
-
+                    };
                 }
                 ?>
 
@@ -143,7 +139,6 @@ session_start();
                                 <?php if (!empty($_SESSION['connected_id'])) {
                                 if ($post['user_id'] == $_SESSION['connected_id']) {
                                     echo "disabled";}} ?>>
-
                                             <div class="likePlace">
                                                 ♥
                                                 <?php echo $post['like_number'] ?>
@@ -157,7 +152,6 @@ session_start();
                                 </a>
                             <?php
                             } ?>
-                        
                     </footer>
 
                     <div id="allcomments">
@@ -172,8 +166,6 @@ session_start();
 
                             if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
                                 $infoPostComment = $mysqli->query($rqtComment);
-                                $infoAlias = $mysqli->query($rqtAlias);
-
                             }
                         };
                         //affichage des commentaires

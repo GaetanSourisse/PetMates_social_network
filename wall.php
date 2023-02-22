@@ -73,10 +73,8 @@ include('forbidenpage.php');
                 ?>
 
                 <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
-                    <?php echo $user['alias'] ?>
-                    (n°
-                    <?php echo $userId ?>)
+                <p>Sur cette page vous trouverez tous les message de 
+                    <?php echo $user['alias'] ?>.
                 </p>
                 <?php 
                 //si on est sur son propre mur, on ajoute la possibilité d'afficher les abonnements et abonnés
@@ -150,6 +148,14 @@ include('forbidenpage.php');
             <?php } ?>
 
             <?php
+            //lancement de la requête pour supprimer les posts
+                if ((!empty($_SESSION['connected_id'])) && ($userId == intval($_SESSION['connected_id']))) { 
+                    if (isset($_POST['supp'])){
+                        $rqtDeletePost = "DELETE FROM posts WHERE id='".$_POST['supp']."';";
+                        $mysqli->query($rqtDeletePost);
+                    }; 
+                };
+                   
             //récupérer tous les posts du user visité
             $laQuestionEnSql = "
                     SELECT posts.content, posts.created, posts.user_id, posts.id, users.alias as author_name, 
@@ -166,12 +172,13 @@ include('forbidenpage.php');
             $lesInformations = $mysqli->query($laQuestionEnSql);
             if (!$lesInformations) {
                 echo ("Échec de la requete : " . $mysqli->error);
-            }
+            }; 
 
             while ($post = $lesInformations->fetch_assoc()) {
-
+                
                 //infos concernant les likes
                 $idDuPost = $post['id'];
+
                 //si le bouton like est cliqué
                 if (isset($_POST['like']) && $_POST['like'] == $idDuPost) {
 
@@ -198,6 +205,7 @@ include('forbidenpage.php');
                 }
                 ?>
                 <article>
+
                     <h3>
                         <time>
                             <?php
@@ -229,19 +237,26 @@ include('forbidenpage.php');
                         <?php } ?>
                     </div>
                     <footer>
-                                <form action="" method="post">
-                                    <button type='submit' name='like' value='<?php echo $idDuPost ?>'
+                            <form action="" method="post">
+                                <button type='submit' name='like' value='<?php echo $idDuPost ?>'
                                     <?php if (!empty($_SESSION['connected_id'])) {
                                     if ($post['user_id'] == $_SESSION['connected_id']) {
                                         echo "disabled";}} ?>>
-
                                             <div class="likePlace">
                                                 ♥
                                                 <?php echo $post['like_number'] ?>
                                             </div>
-
+                                </button>
+                            </form>
+                            <div class="button">
+                                <form action="" method="post">
+                                    <button type='submit' name='supp' value='<?php echo $idDuPost ?>' class="button-sup">
+                                            <div class="delete">
+                                            🗑️
+                                            </div>
                                     </button>
                                 </form>
+                            </div>
                     </footer>
 
                     <div id="allcomments">
@@ -256,7 +271,6 @@ include('forbidenpage.php');
 
                             if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
                                 $infoPostComment = $mysqli->query($rqtComment);
-
                             }
                         };
                         //affichage des commentaires
