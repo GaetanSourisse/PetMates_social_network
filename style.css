@@ -45,7 +45,7 @@ body>header #menu a{
     text-align: center;
     padding-top:2.4em;
     padding-left: 2em;
-    font-weight: bold;
+    font-weight:600;
     /* border-right: 1px solid #99b; */
 }
 
@@ -54,7 +54,7 @@ body>header ul{
 }
 
 body>header #tags a{
-   font-weight: bold;
+   font-weight: 600;
    padding-left: 2.6em;
    padding-top: 0.4em;
 }
@@ -99,12 +99,16 @@ body>header #user:hover ul{
 
 .card_gestion_connexion {
     display:flex;
-    background-color: rgba(0, 108, 227,0.2);
-    border:2px solid #006CE3;
+    background-color: rgba(0, 0, 0, 0.2);
+    border:2px solid #121212;
     border-radius: 1em;
     padding: 0em 3em 0em 3em;
     width: 30em;
     margin-left: 12em;
+}
+
+.card_gestion_connexion a {
+    color:#a0ecff;;
 }
 
 .present-profil {
