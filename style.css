@@ -136,10 +136,15 @@ body>header #user:hover ul{
     padding-top: 1em;
     
 }
+
 #begin{
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5em;
+}
+
+#begin a{
+    font-style: italic;
 }
 
 #allcomments{

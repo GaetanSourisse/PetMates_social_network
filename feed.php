@@ -132,7 +132,7 @@ include('forbidenpage.php');
                             </button>
                         </form>
                     </footer>
-                    
+
                     <div id="allcomments">
                         <?php
                         if (!empty($_POST['commentaire'])){
@@ -153,6 +153,10 @@ include('forbidenpage.php');
                         $infoComment = $mysqli->query($requeteComment);
 
                         while ($comment = $infoComment->fetch_assoc()) {
+                            //récupération de l'alias correspondant au commentaire
+                            $requeteAlias = "SELECT alias FROM users WHERE id=".$comment['user_id'].";";
+                            $infoAlias = $mysqli->query($requeteAlias);
+                            $alias = $infoAlias->fetch_assoc();
                             ?>
                             <div id="wrappercomment">
                                 <div id="begin">
@@ -162,9 +166,9 @@ include('forbidenpage.php');
                                             <?php echo $comment['created'] ?>
                                         </time>
                                     </h3>
-                                    <adress>Par l'utilisatrice n°<a
+                                    <adress>par <a
                                             href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
-                                               echo $comment['user_id'] ?></a>
+                                               echo $alias['alias'] ?></a>
                                     </adress>
                                 </div>
                                 <div>
