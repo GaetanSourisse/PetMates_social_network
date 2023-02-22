@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : mar. 21 fév. 2023 à 12:16
--- Version du serveur : 5.7.24
--- Version de PHP : 8.1.0
+-- Hôte : localhost:8889
+-- Généré le : mer. 22 fév. 2023 à 09:24
+-- Version du serveur : 5.7.39
+-- Version de PHP : 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,19 +29,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `comments` (
   `id` int(10) NOT NULL,
-  `id_post` int(10) UNSIGNED NOT NULL,
+  `id_post` int(11) UNSIGNED NOT NULL,
   `content` varchar(300) NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
-INSERT INTO `comments` (`id`, `id_post`, `content`, `user_id`) VALUES
-(7, 11, 'salut à toi !!', 5),
-(8, 9, 'Je suis d\'accord !', 9),
-(9, 11, 'ça va ? ', 9);
+INSERT INTO `comments` (`id`, `id_post`, `content`, `user_id`, `created`) VALUES
+(10, 14, 'Moi je veux bien venir avec toi !', 8, '2023-02-22 09:21:48'),
+(11, 9, 'Trop d\'accord avec toi :)', 5, '2023-02-22 09:22:12'),
+(12, 14, 'Super on y va à 17h30 vendredi ?', 9, '2023-02-22 10:23:15'),
+(13, 8, 'Qui pour aller à Guérande ce weekend pour la fête à l\'oignon médiéval ?', 9, '2023-02-22 10:24:01');
 
 -- --------------------------------------------------------
 
@@ -60,10 +62,21 @@ CREATE TABLE `followers` (
 --
 
 INSERT INTO `followers` (`id`, `followed_user_id`, `following_user_id`) VALUES
+(1, 5, 3),
 (2, 5, 6),
 (3, 5, 7),
+(4, 1, 5),
 (5, 2, 5),
-(6, 4, 5);
+(6, 4, 5),
+(7, 1, 2),
+(8, 1, 3),
+(9, 1, 7),
+(10, 1, 6),
+(11, 1, 4),
+(12, 7, 8),
+(13, 5, 8),
+(14, 8, 9),
+(15, 7, 9);
 
 -- --------------------------------------------------------
 
@@ -95,7 +108,9 @@ INSERT INTO `likes` (`id`, `user_id`, `post_id`) VALUES
 (11, 1, 9),
 (12, 2, 9),
 (13, 4, 9),
-(14, 5, 9);
+(14, 5, 9),
+(15, 8, 12),
+(16, 8, 10);
 
 -- --------------------------------------------------------
 
@@ -126,9 +141,10 @@ INSERT INTO `posts` (`id`, `user_id`, `content`, `created`, `parent_id`) VALUES
 (8, 5, 'Un #jeu de rôle est une technique ou activité, par laquelle une personne interprète le rôle d\'un personnage (réel ou imaginaire) dans un environnement fictif. Le participant agit à travers ce rôle par des actions physiques ou imaginaires, par des actions narratives (dialogues improvisés, descriptions, jeu) et par des prises de décision sur le développement du personnage et de son histoire.', '2020-11-10 18:26:12', NULL),
 (9, 1, 'Le #féminisme est un ensemble de mouvements et d\'idées philosophiques qui partagent un but commun : définir, promouvoir et atteindre l\'égalité #politique, économique, culturelle, sociale et juridique entre les femmes et les hommes. Le féminisme a donc pour objectif d\'abolir, dans ces différents domaines, les inégalités homme-femme dont les femmes sont les principales victimes, et ainsi de promouvoir les droits des femmes dans la société civile et dans la vie privée. ', '2020-11-20 18:26:50', NULL),
 (10, 7, 'Le #sport est un ensemble d\'exercices physiques se pratiquant sous forme de jeux individuels ou collectifs pouvant donner lieu à des compétitions. Le sport est un phénomène presque universel dans le temps et dans l\'espace humain. La Grèce antique, la Rome antique, Byzance, l\'Occident médiéval puis moderne, mais aussi l\'Amérique précolombienne ou l\'Asie, sont tous marqués par l\'importance du sport. Certaines périodes sont surtout marquées par des interdits. ', '2020-11-30 18:31:16', NULL),
-(11, 5, 'Coucou !', '2023-02-15 14:41:04', NULL),
-(12, 7, 'Est-ce que ça marche toujours ?', '2023-02-15 14:43:00', NULL),
-(13, 9, 'ça marche bordel !', '2023-02-15 15:33:17', NULL);
+(11, 8, 'Coucou je suis le premier post de Gutine', '2023-02-21 14:50:29', NULL),
+(12, 8, 'henlo je suis le deuxième post de gutine', '2023-02-21 15:03:54', NULL),
+(13, 8, 'et voici un troisième message', '2023-02-21 15:05:32', NULL),
+(14, 9, 'Qui veut venir promener Simone avec moi au cours Cambronne demain ??', '2023-02-21 16:39:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -210,7 +226,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `alias`) VALUES
 (5, 'felicie@test.org', '098f6bcd4621d373cade4e832627b4f6', 'Félicie'),
 (6, 'cecile@test.com', '098f6bcd4621d373cade4e832627b4f6', 'Cécile'),
 (7, 'chacha@test.net', '098f6bcd4621d373cade4e832627b4f6', 'Charlotte'),
-(9, 'cindybestaven44@outlook.fr', '2716948a64ef4d479c6d26c2506a63c1', 'Candy');
+(8, 'gutine@gutine.fr', '2df4544d6df4834d8ee71743d1a5c2d3', 'gutine'),
+(9, 'ali@ali.fr', '86318e52f5ed4801abe1d13d509443de', 'ali');
 
 --
 -- Index pour les tables déchargées
@@ -279,25 +296,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `posts_tags`
@@ -325,8 +342,8 @@ ALTER TABLE `users`
 -- Contraintes pour la table `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `cle_post` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id`),
-  ADD CONSTRAINT `cle_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk_posts_id` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id`),
+  ADD CONSTRAINT `fk_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `followers`
