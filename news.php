@@ -155,18 +155,19 @@ session_start();
 
                     <div id="allcomments">
                         <?php
-                        //envoi du commentaire dans la bdd
-                        $userId = $_SESSION['connected_id'];
-                        $commentContent = $_POST['commentaire'];
-                        $commentContent = $mysqli->real_escape_string($commentContent);
-                        $postComment = $_POST['postcomment'];
-                        $rqtComment = "INSERT INTO comments(id, id_post, content, user_id, created) VALUES (NULL,'$idDuPost','$commentContent','$userId',NOW());";
+                        if (!empty($_POST['commentaire'])){
+                            //envoi du commentaire dans la bdd
+                            $userId = $_SESSION['connected_id'];
+                            $commentContent = $_POST['commentaire'];
+                            $commentContent = $mysqli->real_escape_string($commentContent);
+                            $postComment = $_POST['postcomment'];
+                            $rqtComment = "INSERT INTO comments(id, id_post, content, user_id, created) VALUES (NULL,'$idDuPost','$commentContent','$userId',NOW());";
 
-                        if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
-                            $infoPostComment = $mysqli->query($rqtComment);
+                            if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
+                                $infoPostComment = $mysqli->query($rqtComment);
 
-                        }
-
+                            }
+                        };
                         //affichage des commentaires
                         $requeteComment = "SELECT * FROM comments WHERE id_post = '$idDuPost';";
                         $infoComment = $mysqli->query($requeteComment);

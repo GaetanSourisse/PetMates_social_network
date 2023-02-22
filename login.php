@@ -12,6 +12,7 @@ session_start();
 <body>
     <?php include_once('header.php'); ?>
     <?php include('connexion.php'); ?>
+    <div class="alert"></div>
 
     <div id="wrapper">
 
