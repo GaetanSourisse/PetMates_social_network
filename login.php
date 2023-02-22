@@ -16,37 +16,37 @@ session_start();
 
     <div id="wrapper">
 
-        <aside>
-            <h2>Présentation</h2>
-            <p>Bienvenue sur notre réseau social.</p>
-        </aside>
         <main>
+            <article>
+                <h2 class="bienvenue">Bienvenue sur PETMATES</h2>
+                <p class="accroche">Le réseau social dédié aux propriétaires d'animaux. Organisez vos rencontres pour
+                    que vos animaux
+                    étoffent leur cercle d'amis.</p>
+            </article>
             <article>
                 <h2>Connexion</h2>
                 <?php
-                /**
-                 * TRAITEMENT DU FORMULAIRE
-                 */
-
+                // traitement du formulaire connexion
+                
                 $enCoursDeTraitement = isset($_POST['email']);
                 if ($enCoursDeTraitement) {
 
                     $emailAVerifier = $_POST['email'];
                     $passwdAVerifier = $_POST['motpasse'];
 
-                    //Etape 4 : Petite sécurité
+                    // Petite sécurité
                     // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
                     $emailAVerifier = $mysqli->real_escape_string($emailAVerifier);
                     $passwdAVerifier = $mysqli->real_escape_string($passwdAVerifier);
                     // on crypte le mot de passe pour éviter d'exposer notre utilisatrice en cas d'intrusion dans nos systèmes
                     $passwdAVerifier = md5($passwdAVerifier);
-                    //Etape 5 : construction de la requete
+                    // construction de la requete
                     $lInstructionSql = "SELECT * "
                         . "FROM users "
                         . "WHERE "
                         . "email LIKE '" . $emailAVerifier . "'"
                     ;
-                    // Etape 6: Vérification de l'utilisateur
+                    // Vérification de l'utilisateur
                     $res = $mysqli->query($lInstructionSql);
                     $user = $res->fetch_assoc();
                     if (!$user or $user["password"] != $passwdAVerifier) {
@@ -62,10 +62,10 @@ session_start();
                             </dl>
                             <input type='submit'>
                         </form>
-                        <p>
-                            Pas de compte?
+                        <div class="pasdecompte">
+                            Pas de compte ?
                             <a href='registration.php'>Inscrivez-vous.</a>
-                        </p>
+                        </div>
                     <?php
                     } else {
                         echo "Votre connexion est un succès : " . $user['alias'] . ".";
@@ -86,10 +86,10 @@ session_start();
                         </dl>
                         <input type='submit'>
                     </form>
-                    <p>
-                        Pas de compte?
-                        <a href='registration.php'>Inscrivez-vous.</a>
-                    </p>
+                    <div class="pasdecompte">
+                        Pas de compte ?
+                        <a href='registration.php'> Inscrivez-vous.</a>
+                    </div>
                 <?php
                 }
                 ?>

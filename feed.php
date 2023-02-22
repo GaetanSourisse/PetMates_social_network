@@ -27,8 +27,7 @@ include('forbidenpage.php');
             $laQuestionEnSql = "SELECT * FROM `users` WHERE id= '$userId' ";
             $lesInformations = $mysqli->query($laQuestionEnSql);
             $user = $lesInformations->fetch_assoc();
-            //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
-            //echo "<pre>" . print_r($user, 1) . "</pre>";
+
             ?>
         </aside>
         <main>
@@ -93,13 +92,14 @@ include('forbidenpage.php');
                 <article>
                     <h3>
                         <time>
-                            Publié le <?php echo $post['created'] ?>
+                            Publié le
+                            <?php echo $post['created'] ?>
                         </time>
                     </h3>
                     <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
                     <div>
                         <p>
-                        <?php echo $post['content'] ?>
+                            <?php echo $post['content'] ?>
                         </p>
                     </div>
                     <div class="tags">
@@ -125,8 +125,8 @@ include('forbidenpage.php');
                             <button type='submit' name='like' value='<?php echo $idDuPost ?>'>
                                 <small>
                                     <div class="likePlace">
-                                    ♥
-                                    <?php echo $post['like_number'] ?>
+                                        ♥
+                                        <?php echo $post['like_number'] ?>
                                     </div>
                                 </small>
                             </button>

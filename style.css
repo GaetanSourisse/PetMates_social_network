@@ -266,3 +266,19 @@ body>header #tags .deroulant:hover {
     text-decoration: underline;
     background-color: #99b;
 }
+
+/* page login*/
+.pasdecompte{
+    margin-top: 1em;
+}
+
+.bienvenue {
+    color: #62929E;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.accroche{
+    font-size: x-large;
+    text-align: center;
+}
