@@ -118,9 +118,12 @@ body>header #user:hover ul{
     color:black;
     width: 13em;
     border-radius: 1em;
-    padding: 0em 1em 0em 1em;
+    padding: 0em 1em 10em 1em;
+    position: fixed;
 }
-
+.mainwall{
+    margin-left: 15em;
+}
 #wrapper{
     display:flex;    
     width:70em;
@@ -155,6 +158,7 @@ body>header #user:hover ul{
     flex:3;
     padding-left:1em;
     height: 80vh;
+   
 }
 
 #wrapper main article{
@@ -219,7 +223,8 @@ body>header #user:hover ul{
     display:flex;
     flex-wrap: wrap;
     align-items:flex-start;
-    align-content: flex-start ;
+    align-content: flex-start;
+    margin-left: 15em;
 }
 .contacts article{
     width:25em;

@@ -72,11 +72,8 @@ include('forbidenpage.php');
                 ;
                 ?>
 
-                <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
-                    <?php echo $user['alias'] ?>
-                    (n°
-                    <?php echo $userId ?>)
+                <h1 class="pseudo"></h1><?php echo $user['alias'] ?></h1>
+                <p>Biographie perso
                 </p>
                 <?php 
                 //si on est sur son propre mur, on ajoute la possibilité d'afficher les abonnements et abonnés
@@ -101,7 +98,7 @@ include('forbidenpage.php');
                 ?>
             </section>
         </aside>
-        <main>
+        <main class="mainwall">
 
             <?php
             //on déclare la variable explanation pour s'en servir après si jamais il y en a besoin
