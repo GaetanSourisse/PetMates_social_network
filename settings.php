@@ -28,7 +28,7 @@ include('forbidenpage.php');
             </section>
         </aside>
 
-        <main>
+        <main class="mainwall">
             <?php
 
             $userId = intval($_GET['user_id']);
