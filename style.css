@@ -45,7 +45,7 @@ body>header #menu a{
     text-align: center;
     padding-top:2.4em;
     padding-left: 2em;
-    font-weight: bold;
+    font-weight:600;
     /* border-right: 1px solid #99b; */
 }
 
@@ -54,7 +54,7 @@ body>header ul{
 }
 
 body>header #tags a{
-   font-weight: bold;
+   font-weight: 600;
    padding-left: 2.6em;
    padding-top: 0.4em;
 }
@@ -99,12 +99,16 @@ body>header #user:hover ul{
 
 .card_gestion_connexion {
     display:flex;
-    background-color: rgba(0, 108, 227,0.2);
-    border:2px solid #006CE3;
+    background-color: rgba(0, 0, 0, 0.2);
+    border:2px solid #121212;
     border-radius: 1em;
     padding: 0em 3em 0em 3em;
     width: 30em;
     margin-left: 12em;
+}
+
+.card_gestion_connexion a {
+    color:#a0ecff;;
 }
 
 .present-profil {
@@ -114,9 +118,12 @@ body>header #user:hover ul{
     color:black;
     width: 13em;
     border-radius: 1em;
-    padding: 0em 1em 0em 1em;
+    padding: 0em 1em 10em 1em;
+    position: fixed;
 }
-
+.mainwall{
+    margin-left: 15em;
+}
 #wrapper{
     display:flex;    
     width:70em;
@@ -132,10 +139,15 @@ body>header #user:hover ul{
     padding-top: 1em;
     
 }
+
 #begin{
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5em;
+}
+
+#begin a{
+    font-style: italic;
 }
 
 #allcomments{
@@ -146,6 +158,7 @@ body>header #user:hover ul{
     flex:3;
     padding-left:1em;
     height: 80vh;
+   
 }
 
 #wrapper main article{
@@ -210,7 +223,8 @@ body>header #user:hover ul{
     display:flex;
     flex-wrap: wrap;
     align-items:flex-start;
-    align-content: flex-start ;
+    align-content: flex-start;
+    margin-left: 15em;
 }
 .contacts article{
     width:25em;
@@ -224,6 +238,12 @@ body>header #user:hover ul{
 
 pre{
     color:#aaa;
+}
+
+.present-profil img {
+    width: 7em;    
+    height: auto;
+    margin: 2em auto;
 }
 
 form dl dt{float:left;font-weight: bold;line-height: 1.5em;}
@@ -265,4 +285,20 @@ body>header #tags:hover ul{
 body>header #tags .deroulant:hover {
     text-decoration: underline;
     background-color: #99b;
+}
+
+/* page login*/
+.pasdecompte{
+    margin-top: 1em;
+}
+
+.bienvenue {
+    color: #62929E;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.accroche{
+    font-size: x-large;
+    text-align: center;
 }

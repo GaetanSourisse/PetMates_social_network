@@ -48,7 +48,7 @@ include('forbidenpage.php');
             $user = $lesInformations->fetch_assoc();
 
             // ?>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
+            <img src="user.png" alt="Portrait de l'utilisatrice" />
             <section>
                 <?php
 
@@ -72,11 +72,8 @@ include('forbidenpage.php');
                 ;
                 ?>
 
-                <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
-                    <?php echo $user['alias'] ?>
-                    (n°
-                    <?php echo $userId ?>)
+                <h1 class="pseudo"></h1><?php echo $user['alias'] ?></h1>
+                <p>Biographie perso
                 </p>
 
                 
@@ -148,7 +145,7 @@ include('forbidenpage.php');
                 ?>
             </section>
         </aside>
-        <main>
+        <main class="mainwall">
 
             <?php
             //on déclare la variable explanation pour s'en servir après si jamais il y en a besoin
@@ -247,7 +244,15 @@ include('forbidenpage.php');
                 <article>
                     <h3>
                         <time>
-                            <?php echo $post['created'] ?>
+                            <?php
+                            //formatage de la date
+                            $stringDate = $post['created'];
+                            $dateJourTiret = substr($stringDate, 0, 9);
+                            $heureTiret = substr($stringDate, 11, -1);
+                            list($year, $day, $month) = explode("-",$dateJourTiret);
+                            list($hour, $minuts, $seconds) = explode(":", $heureTiret);
+                            ?>
+                            Publié le <?php echo $day."/".$month."/".$year ?> à <?php echo $hour ?> h <?php echo $minuts ?>
                         </time>
                     </h3>
                     <address>par
@@ -259,11 +264,15 @@ include('forbidenpage.php');
                         </p>
                     </div>
                     <div class="tags">
+                        <?php 
+                        //On vérifie que la taglist n'est pas vide avant d'afficher le #
+                        if(!empty($post['taglist'])) { ?>
                         <a href="">#
-                            <?php echo $post['taglist'] ?>
+                        <?php echo $post['taglist'] ?>
                         </a>
-                        </div>
-                        <footer>
+                        <?php } ?>
+                    </div>
+                    <footer>
                                 <form action="" method="post">
                                     <button type='submit' name='like' value='<?php echo $idDuPost ?>'
                                     <?php if (!empty($_SESSION['connected_id'])) {
@@ -277,7 +286,70 @@ include('forbidenpage.php');
 
                                     </button>
                                 </form>
-                        </footer>
+                    </footer>
+
+                    <div id="allcomments">
+                        <?php
+                        if (!empty($_POST['commentaire'])){
+                            //envoi du commentaire dans la bdd
+                            $userId = $_SESSION['connected_id'];
+                            $commentContent = $_POST['commentaire'];
+                            $commentContent = $mysqli->real_escape_string($commentContent);
+                            $postComment = $_POST['postcomment'];
+                            $rqtComment = "INSERT INTO comments(id, id_post, content, user_id, created) VALUES (NULL,'$idDuPost','$commentContent','$userId',NOW());";
+
+                            if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
+                                $infoPostComment = $mysqli->query($rqtComment);
+
+                            }
+                        };
+                        //affichage des commentaires
+                        $requeteComment = "SELECT * FROM comments WHERE id_post = '$idDuPost';";
+                        $infoComment = $mysqli->query($requeteComment);
+
+                        while ($comment = $infoComment->fetch_assoc()) {
+                            //récupération de l'alias correspondant au commentaire
+                            $requeteAlias = "SELECT alias FROM users WHERE id=".$comment['user_id'].";";
+                            $infoAlias = $mysqli->query($requeteAlias);
+                            $alias = $infoAlias->fetch_assoc();
+                            ?>
+                            <div id="wrappercomment">
+                                <div id="begin">
+                                    <h3>
+                                    <time>
+                                        <?php
+                                        //formatage de la date
+                                        $stringDate = $comment['created'];
+                                        $dateJourTiret = substr($stringDate, 0, 9);
+                                        $heureTiret = substr($stringDate, 11, -1);
+                                        list($year, $day, $month) = explode("-",$dateJourTiret);
+                                        list($hour, $minuts, $seconds) = explode(":", $heureTiret);
+                                        ?>
+                                        Publié le <?php echo $day."/".$month."/".$year ?> à <?php echo $hour ?> h <?php echo $minuts ?>
+                                    </time>
+                                    </h3>
+                                    <adress>par <a
+                                            href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
+                                               echo $alias['alias'] ?></a>
+                                    </adress>
+                                </div>
+                                <div>
+                                    <p>
+                                        <?php echo $comment['content'] ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php }
+                        ?>
+                    </div>
+                    <form action="" method="post">
+                        <dl>
+                            <dt><label for='commentaire'>Commentaire</label></dt>
+                            <dd><textarea name='commentaire'></textarea></dd>
+                        </dl>
+                        <button type='submit' name='postcomment' value='<?php echo $idDuPost ?>'>Envoyer le
+                            commentaire</button>
+                    </form>
 
                 </article>
             <?php } ?>
