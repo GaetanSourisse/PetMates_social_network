@@ -76,15 +76,18 @@ include('forbidenpage.php');
                 <p>Biographie perso
                 </p>
 
+                <h4>Animaux</h4>
                 
                 <?php 
                 //si on est sur son propre mur, on ajoute la possibilité d'afficher les abonnements et abonnés
                 if ($userId == intval($_SESSION['connected_id'])) {
                     ?>
 
-                    <h4>Mes animaux</h4>
+                
 
-                    <div class="AjoutPets">
+
+
+                    <div class="ajoutPets">
                         <form action='' method="post">
                             <button name="addPets" type="submit">+ Ajouter un animal</button>
                         </form>
@@ -103,18 +106,17 @@ include('forbidenpage.php');
                             
                             ?>
                             <form action="" method="post">
-                                <dl>
-                                    <dt><label for='typePet'>Type de l'animal</label></dt>
-                                    <dd><input name='typePet'></dd>
-                                    
-                                    <dt><label for='racePet'>Race de l'animal</label></dt>
-                                    <dd><input name="racePet"></dd>
-                                    
-                                    <dt><label for='namePet'>Nom de l'animal</label></dt>
-                                    <dd><input name='namePet'></dd>
-                                </dl>
                                 
-                                <input type='submit' value="valider">
+                                    <label for='typePet'>Type de l'animal</label>
+                                    <input name='typePet'>
+                                   
+                                    <label for='racePet'>Race de l'animal</label>
+                                    <input name="racePet">
+                                  
+                                    <label for='namePet'>Nom de l'animal</label>
+                                    <input name='namePet'>
+                                
+                                <input class="buttonPet" type='submit' value="valider">
                             </form>
                             <?php
 

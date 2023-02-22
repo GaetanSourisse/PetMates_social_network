@@ -302,3 +302,25 @@ body>header #tags .deroulant:hover {
     font-size: x-large;
     text-align: center;
 }
+
+.ajoutPets {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-followers {
+    margin-top: 1.2em;
+    border-top: 2px solid black;
+    padding-top: 1em;
+}
+
+.buttonPet {
+    margin-top: 1em;
+}
+
+h4 {
+    border-top: 2px solid black;
+    padding-top: 1em;
+    font-weight: bold;
+    color: #62929E;
+}
