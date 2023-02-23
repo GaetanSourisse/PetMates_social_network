@@ -17,8 +17,8 @@ session_start();
     <div id="wrapper">
 
         <main>
-            <article>
-                <h2 class="bienvenue">Bienvenue sur PETMATES</h2>
+            <article class="welcome">
+                <h2 class="bienvenue">🐾 Bienvenue sur <strong>P</strong>ET<strong>M</strong>ATES 🐾</h2>
                 <p class="accroche">Le réseau social dédié aux propriétaires d'animaux. Organisez vos rencontres pour
                     que vos animaux
                     étoffent leur cercle d'amis.</p>

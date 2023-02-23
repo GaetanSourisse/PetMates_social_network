@@ -36,11 +36,11 @@
     <nav id="user">
         <a href="#">Mon compte</a>
         <ul>
-            <li><a href="settings.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Paramètres</a></li>
-            <li><a href="wall.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mon profil</a></li>
+            <li><a href="settings.php?user_id=<?php echo $_SESSION['connected_id'] ?>">⚙️ Paramètres</a></li>
+            <li><a href="wall.php?user_id=<?php echo $_SESSION['connected_id'] ?>">👤 Mon profil</a></li>
             <li>
                 <a>
-                    <form action="login.php" method="post"><button name="déconnexion">Se déconnecter</button></form>
+                    <form action="login.php" method="post"><button name="déconnexion">💔 Se déconnecter</button></form>
                 </a>
             </li>
         </ul>

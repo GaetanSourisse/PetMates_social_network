@@ -79,6 +79,7 @@ include('forbidenpage.php');
                 <h4>Animaux🐾</h4>
 
                 <?php
+                if (isset($_POST['typePet'])) {
                 $requetePet = "INSERT INTO pets (id, user_id, type_pet, race_pet, name_pet, sex_pet)"
                 . "VALUES (NULL, "
                 . "'" . $_SESSION['connected_id'] . "', "
@@ -88,7 +89,7 @@ include('forbidenpage.php');
                 . "'" . $_POST['pets'] . "'" 
                 . ");";
 
-                if (isset($_POST['typePet'])) {
+                
                     $infoPets = $mysqli->query($requetePet);
                 }
 
