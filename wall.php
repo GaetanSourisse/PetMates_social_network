@@ -208,7 +208,7 @@ include('forbidenpage.php');
                     <form action="" method="post">
                     <dl>
                         <dt><label for='message'>Message</label></dt>
-                        <dd><textarea name='message'></textarea></dd>
+                        <dd><textarea id="textarea" name='message'></textarea></dd>
                     </dl>
                     <input type='submit'>
                     </form>
@@ -384,7 +384,7 @@ include('forbidenpage.php');
                     <form action="" method="post">
                         <dl>
                             <dt><label for='commentaire'>Commentaire</label></dt>
-                            <dd><textarea name='commentaire'></textarea></dd>
+                            <dd><textarea id="textarea" name='commentaire'></textarea></dd>
                         </dl>
                         <button type='submit' name='postcomment' value='<?php echo $idDuPost ?>'>Envoyer le
                             commentaire</button>

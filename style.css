@@ -363,3 +363,8 @@ h4 {
 .delete {
     padding: 0.2em;
 }
+
+#textarea{
+    height: 6em;
+    width: 40em;
+}
