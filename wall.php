@@ -73,7 +73,7 @@ include('forbidenpage.php');
                 ?>
 
                 <h1 class="pseudo"><?php echo $user['alias'] ?></h1>
-                <h4>Biographie perso &#128393 </h4>
+                <h4>Biographie perso 🖍️ </h4>
             
                 <h4>Animaux🐾</h4>
 
