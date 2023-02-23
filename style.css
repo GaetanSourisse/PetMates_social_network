@@ -27,7 +27,6 @@ body>header #menu {
     display:flex;
     width:30%;
     align-items: stretch;
-    /* border-left: 1px solid #99b; */
 }
 
 body>header #menu h1{
@@ -46,7 +45,6 @@ body>header #menu a{
     padding-top:2.4em;
     padding-left: 2em;
     font-weight:600;
-    /* border-right: 1px solid #99b; */
 }
 
 body>header ul{
@@ -55,7 +53,6 @@ body>header ul{
 
 body>header #tags a{
    font-weight: 600;
-   padding-left: 2.6em;
    padding-top: 0.4em;
 }
 
@@ -293,7 +290,6 @@ body>header #tags .deroulant:hover {
 }
 
 .bienvenue {
-    color: #62929E;
     font-size: xx-large;
     text-align: center;
 }
@@ -332,4 +328,13 @@ h4 {
 #textarea{
     height: 6em;
     width: 40em;
+}
+
+.welcome{
+    margin-top: 3em;
+}
+
+.bienvenue strong{
+    font-size: 1.2em;
+    color: #62929E;
 }
