@@ -34,7 +34,9 @@ session_start();
     <div id="wrapper">
 
         <main>
+
             <?php
+
             $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
@@ -86,24 +88,19 @@ session_start();
                             $mysqli->query($questionSqlNewLike);
                             $post['like_number']++;
                         }
-                    };
+                    }
+                    ;
+
                 }
                 ?>
 
                 <!-- on créé un article dans le html -->
                 <article>
                     <h3>
-                    <time>
-                        <?php
-                        //formatage de la date
-                        $stringDate = $post['created'];
-                        $dateJourTiret = substr($stringDate, 0, 9);
-                        $heureTiret = substr($stringDate, 11, -1);
-                        list($year, $day, $month) = explode("-",$dateJourTiret);
-                        list($hour, $minuts, $seconds) = explode(":", $heureTiret);
-                        ?>
-                        Publié le <?php echo $day."/".$month."/".$year ?> à <?php echo $hour ?> h <?php echo $minuts ?>
-                    </time>
+                        <time>
+                            Publié le
+                            <?php echo $post['created'] ?>
+                        </time>
                     </h3>
 
                     <address>par <a href="wall.php?user_id=<?php echo $post['user_id'] ?>"><?php echo $post['author_name'] ?></a></address>
@@ -139,6 +136,7 @@ session_start();
                                 <?php if (!empty($_SESSION['connected_id'])) {
                                 if ($post['user_id'] == $_SESSION['connected_id']) {
                                     echo "disabled";}} ?>>
+
                                             <div class="likePlace">
                                                 ♥
                                                 <?php echo $post['like_number'] ?>
@@ -152,6 +150,7 @@ session_start();
                                 </a>
                             <?php
                             } ?>
+                        
                     </footer>
 
                     <div id="allcomments">
@@ -166,6 +165,7 @@ session_start();
 
                             if (isset($commentContent) && isset($postComment) && $postComment == $idDuPost) {
                                 $infoPostComment = $mysqli->query($rqtComment);
+
                             }
                         };
                         //affichage des commentaires
@@ -173,29 +173,18 @@ session_start();
                         $infoComment = $mysqli->query($requeteComment);
 
                         while ($comment = $infoComment->fetch_assoc()) {
-                            //récupération de l'alias correspondant au commentaire
-                            $requeteAlias = "SELECT alias FROM users WHERE id=".$comment['user_id'].";";
-                            $infoAlias = $mysqli->query($requeteAlias);
-                            $alias = $infoAlias->fetch_assoc();
                             ?>
                             <div id="wrappercomment">
                                 <div id="begin">
                                     <h3>
-                                    <time>
-                                        <?php
-                                        //formatage de la date
-                                        $stringDate = $comment['created'];
-                                        $dateJourTiret = substr($stringDate, 0, 9);
-                                        $heureTiret = substr($stringDate, 11, -1);
-                                        list($year, $day, $month) = explode("-",$dateJourTiret);
-                                        list($hour, $minuts, $seconds) = explode(":", $heureTiret);
-                                        ?>
-                                        Publié le <?php echo $day."/".$month."/".$year ?> à <?php echo $hour ?> h <?php echo $minuts ?>
-                                    </time>
+                                        <time>
+                                            Publié le
+                                            <?php echo $comment['created'] ?>
+                                        </time>
                                     </h3>
-                                    <adress>par <a
+                                    <adress>Par l'utilisatrice n°<a
                                             href="wall.php?user_id=<?php echo $comment['user_id'] ?>"><?php
-                                               echo $alias['alias'] ?></a>
+                                               echo $comment['user_id'] ?></a>
                                     </adress>
                                 </div>
                                 <div>
