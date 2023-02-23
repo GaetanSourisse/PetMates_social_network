@@ -303,7 +303,6 @@ body>header #tags .deroulant:hover {
     text-align: center;
 }
 
-<<<<<<< HEAD
 .ajoutPets {
     display: flex;
     flex-direction: column;
@@ -324,9 +323,13 @@ h4 {
     padding-top: 1em;
     font-weight: bold;
     color: #62929E;
-=======
+}
 /* boutton supprimer */
 .delete {
     padding: 0.2em;
->>>>>>> 0bf843039fd1b2f167dc661e4dded89d8bf382b1
+}
+
+#textarea{
+    height: 6em;
+    width: 40em;
 }

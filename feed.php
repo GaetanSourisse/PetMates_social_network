@@ -197,7 +197,7 @@ include('forbidenpage.php');
                     <form action="" method="post">
                         <dl>
                             <dt><label for='commentaire'>Commentaire</label></dt>
-                            <dd><textarea name='commentaire'></textarea></dd>
+                            <dd><textarea  id="textarea" name='commentaire'></textarea></dd>
                         </dl>
                         <button type='submit' name='postcomment' value='<?php echo $idDuPost ?>'>Envoyer le
                             commentaire</button>
