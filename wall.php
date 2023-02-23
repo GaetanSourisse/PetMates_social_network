@@ -72,35 +72,51 @@ include('forbidenpage.php');
                 ;
                 ?>
 
-                <h1 class="pseudo"></h1><?php echo $user['alias'] ?></h1>
-                <p>Biographie perso
-                </p>
+                <h1 class="pseudo"><?php echo $user['alias'] ?></h1>
+                <h4>Biographie perso &#128393 </h4>
+            
+                <h4>Animaux🐾</h4>
 
-                <h4>Animaux</h4>
+                <?php
+                $requetePet = "INSERT INTO pets (id, user_id, type_pet, race_pet, name_pet, sex_pet)"
+                . "VALUES (NULL, "
+                . "'" . $_SESSION['connected_id'] . "', "
+                . "'" . $_POST['typePet'] . "', "
+                . "'" . $_POST['racePet'] . "', "
+                . "'" . $_POST['namePet'] . "', "
+                . "'" . $_POST['pets'] . "'" 
+                . ");";
+
+                if (isset($_POST['typePet'])) {
+                    $infoPets = $mysqli->query($requetePet);
+                }
+
+                $requeteListPet= "SELECT * FROM pets WHERE user_id= '$userId' ";
+                $lesInfoPet = $mysqli->query($requeteListPet);
+    
+                while ($petList = $lesInfoPet->fetch_assoc()) {
+                ?>
+                    <div class="animList">
+                        <ul>
+                           <li class="nameAnim"><?php echo $petList['name_pet'] ?></li>
+                           <li><?php echo $petList['type_pet'] ?> (<?php echo $petList['race_pet'] ?>)</li>
+                           <li class="animSex"><?php echo $petList['sex_pet'] ?> </li>
+                        </ul>    
+                    </div>
+                <?php
+                }
+                ?>
                 
                 <?php 
                 //si on est sur son propre mur, on ajoute la possibilité d'afficher les abonnements et abonnés
                 if ($userId == intval($_SESSION['connected_id'])) {
-                    ?>
-
-                
-
-
-
-                    <div class="ajoutPets">
+                 ?>   
+                   
+                        <div class="ajoutPets">
                         <form action='' method="post">
                             <button name="addPets" type="submit">+ Ajouter un animal</button>
                         </form>
-                     <?php   
-
-
-                        $requetePet = "INSERT INTO pets (id, user_id, type_pet, race_pet, name_pet)"
-                        . "VALUES (NULL, "
-                        . "'" . $_SESSION['connected_id'] . "', "
-                        . "'" . $_POST['typePet'] . "', "
-                        . "'" . $_POST['racePet'] . "', "
-                        . "'" . $_POST['namePet'] . "'" 
-                        . ");";
+                        <?php   
 
                         if (isset($_POST['addPets'])) {
                             
@@ -115,16 +131,21 @@ include('forbidenpage.php');
                                   
                                     <label for='namePet'>Nom de l'animal</label>
                                     <input name='namePet'>
+
+                                    <label for="sex-select" class="sex-select">Sexe de l'animal</label>
+
+                                    <select name="pets" class="sex-select">
+                                        <option value="">Selectionner</option>
+                                        <option value="&#9792; Femelle">Femelle</option>
+                                        <option value="&#9794; Mâle">Mâle</option>    
+                                    </select> 
                                 
                                 <input class="buttonPet" type='submit' value="valider">
                             </form>
                             <?php
 
                         }
-                            if (isset($_POST['typePet'])) {
-                               var_dump ("coucou");
-                               $infoPets = $mysqli->query($requetePet);
-                            }
+
                     ?>
                     </div>   
                     
